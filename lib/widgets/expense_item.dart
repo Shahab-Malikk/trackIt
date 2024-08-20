@@ -25,7 +25,7 @@ class ExpenseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDescriptionNotNull = expense.description.trim() != '';
+    // final isDescriptionNotNull = expense.description.trim() != '';
     final isPaidbyNameNotNull = expense.paidBy.trim() != '';
 
     return Card(

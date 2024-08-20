@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class ExpensesScreen extends StatefulWidget {
   final String userId;
-  List<Expense> registeredExpenses;
+  final List<Expense> registeredExpenses;
   ExpensesScreen({required this.userId, required this.registeredExpenses});
   @override
   State<ExpensesScreen> createState() => _ExpensesScreenState();

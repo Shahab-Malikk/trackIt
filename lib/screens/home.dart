@@ -11,7 +11,6 @@ import 'package:expense_tracker/widgets/main_drawer.dart';
 import 'package:expense_tracker/widgets/wlecome_banner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<String, dynamic>? userData;
   String userName = '';
   String uid = '';
+  // ignore: unused_field
   List<Expense> _registeredExpenses = [];
   @override
   void initState() {
@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Card(
                     color: TColors.white,
@@ -179,12 +179,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           vertical: 20, horizontal: 10),
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.trending_down_sharp,
                             size: TSizes.iconLg,
                             color: TColors.lightOrange,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Column(
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontSize: 22,
                                     fontWeight: FontWeight.w900),
                               ),
-                              Text(
+                              const Text(
                                 'Expenses',
                                 style: TextStyle(
                                     color: TColors.dark,
