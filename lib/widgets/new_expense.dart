@@ -9,8 +9,13 @@ import 'package:flutter/widgets.dart';
 class NewExpense extends StatefulWidget {
   final void Function(Expense expense) onAddExpense;
   final String userId;
-  const NewExpense(
-      {super.key, required this.onAddExpense, required this.userId});
+  final String projectId;
+  const NewExpense({
+    super.key,
+    required this.onAddExpense,
+    required this.userId,
+    this.projectId = "",
+  });
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -281,8 +286,9 @@ class _NewExpenseState extends State<NewExpense> {
                 width: 150,
                 height: 60,
                 child: ElevatedButton(
-                    onPressed: _submitExpenseData,
-                    child: const Text('Save Title')),
+                  onPressed: _submitExpenseData,
+                  child: const Text('Save Expense'),
+                ),
               ),
             ],
           )

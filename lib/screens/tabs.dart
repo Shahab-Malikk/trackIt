@@ -94,7 +94,9 @@ class _TabsState extends State<Tabs> {
 
     if (_selectedPageIndex == 1) {
       activePageTitle = 'Projects';
-      activePage = ProjectsScreen();
+      activePage = ProjectsScreen(
+        userId: uid,
+      );
     }
     if (_selectedPageIndex == 2) {
       activePageTitle = 'Reconcilation';

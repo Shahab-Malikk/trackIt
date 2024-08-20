@@ -1,10 +1,26 @@
+import 'package:expense_tracker/models/project.dart';
+import 'package:expense_tracker/screens/project_detail.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:flutter/material.dart';
 
 class ProjectItem extends StatelessWidget {
-  final void Function() onSelectProject;
-  const ProjectItem({super.key, required this.onSelectProject});
+  final Project project;
+  final String userId;
+  const ProjectItem({
+    super.key,
+    required this.project,
+    required this.userId,
+  });
+
+  void selectProject(BuildContext context, Project project) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (ctx) => ProjectDetailScreen(
+        project: project,
+        userId: userId,
+      ),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +28,10 @@ class ProjectItem extends StatelessWidget {
       color: TColors.white,
       elevation: 1,
       child: InkWell(
-        onTap: onSelectProject,
-        child: const Padding(
+        onTap: () {
+          selectProject(context, project);
+        },
+        child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 16,
             horizontal: 20,
@@ -22,52 +40,52 @@ class ProjectItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Project 1",
-                style: TextStyle(
+                project.title,
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
-                "Here is my project 1 in this project. This project is about a new house.",
-                style: TextStyle(
+                project.description,
+                style: const TextStyle(
                   fontSize: TSizes.fontSizeMd,
                   color: TColors.darkGrey,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.calendar_month_outlined),
-                      SizedBox(
+                      const Icon(Icons.calendar_month_outlined),
+                      const SizedBox(
                         width: 3,
                       ),
                       Text(
-                        "20/8/2024",
-                        style: TextStyle(
+                        project.formattedDate,
+                        style: const TextStyle(
                           fontSize: TSizes.fontSizeMd,
                           color: TColors.darkGrey,
                         ),
                       ),
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: [
-                      Icon(Icons.person_2_outlined),
-                      SizedBox(
+                      const Icon(Icons.person_2_outlined),
+                      const SizedBox(
                         width: 3,
                       ),
                       Text(
-                        "Watto Khan",
-                        style: TextStyle(
+                        project.initiatedBy,
+                        style: const TextStyle(
                           fontSize: TSizes.fontSizeMd,
                           color: TColors.darkGrey,
                         ),

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
+import 'package:expense_tracker/models/project.dart';
 
 class UserDataService {
   final FirestoreServices _firestoreService;
@@ -9,6 +10,29 @@ class UserDataService {
 
   CollectionReference get _usersCollection =>
       _firestoreService.db.collection('users');
+
+  Future<void> storeProjectInDb(Project project, String userId) {
+    CollectionReference projectsCollection =
+        _usersCollection.doc(userId).collection("projects");
+
+    return projectsCollection.add({
+      'id': project.id,
+      'title': project.title,
+      'date': project.date,
+      'initiatedBy': project.initiatedBy,
+      'description': project.description,
+    });
+  }
+
+  Future<List<Project>> fetchProjects(String userId) async {
+    CollectionReference projectsCollection =
+        _usersCollection.doc(userId).collection("projects");
+    QuerySnapshot snapshot = await projectsCollection.get();
+
+    return snapshot.docs
+        .map((doc) => Project.fromMap(doc.data() as Map<String, dynamic>))
+        .toList();
+  }
 
   Future<Map<String, dynamic>?> getUserData(String userId) async {
     try {
