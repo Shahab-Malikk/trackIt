@@ -1,4 +1,5 @@
 import 'package:expense_tracker/models/project.dart';
+import 'package:expense_tracker/widgets/no_data.dart';
 import 'package:expense_tracker/widgets/projects_list.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +14,7 @@ class RecentProjects extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Column(
+    Widget mainContent = Column(
       children: [
         const Text(
           "Here are your recent projects , see all projects by navigating to Projects.",
@@ -26,8 +26,15 @@ class RecentProjects extends StatelessWidget {
             projects: recentProjects,
             userId: userId,
           ),
-        )
+        ),
       ],
-    ));
+    );
+
+    if (recentProjects.isEmpty) {
+      mainContent = const NoData(message: "Add Projects to track expenses.");
+    }
+    return Expanded(
+      child: mainContent,
+    );
   }
 }

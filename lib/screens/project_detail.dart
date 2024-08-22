@@ -69,7 +69,6 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
       }
     } catch (e) {
       UtilityFunctions().showInfoMessage("An error occured.", context);
-      print(e);
     }
   }
 

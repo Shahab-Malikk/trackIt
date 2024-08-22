@@ -105,6 +105,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
               "Add Your projects here.",
@@ -117,10 +118,11 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
               height: 20,
             ),
             Expanded(
-                child: ProjectsList(
-              projects: projects,
-              userId: widget.userId,
-            )),
+              child: ProjectsList(
+                projects: projects,
+                userId: widget.userId,
+              ),
+            ),
           ],
         ),
       ),

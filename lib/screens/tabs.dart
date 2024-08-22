@@ -38,7 +38,7 @@ class _TabsState extends State<Tabs> {
       try {
         userData = await UserDataService(fireStoreService).getUserData(uid);
         if (userData != null) {
-          print('User Data: $userData');
+          // debugPrint('User Data: $userData');
           setState(() {
             userName = userData?['userName'];
           });

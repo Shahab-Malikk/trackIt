@@ -18,12 +18,9 @@ class ExpensesScreen extends StatefulWidget {
 }
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
-  // List<Expense> _registeredExpenses = [];
-
   @override
   void initState() {
     super.initState();
-    // _fetchAndStoreExpenses(); // Fetch and store expenses when the widget is loaded
   }
 
   void _openAddExpenseOverlay() {
@@ -36,21 +33,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       ),
     );
   }
-
-  // void _fetchAndStoreExpenses() async {
-  //   final List<Expense> expenses =
-  //       await UserDataService(fireStoreService).fetchExpenses(widget.userId);
-  //   setState(() {
-  //     _registeredExpenses = expenses;
-  //   });
-
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     final financialData = Provider.of<FinancialData>(context, listen: false);
-  //     final totalExpenses =
-  //         expenses.fold(0.0, (sum, expense) => sum + expense.amount);
-  //     financialData.updateTotalExpenses(totalExpenses);
-  //   });
-  // }
 
   void _addExpense(Expense expense) async {
     setState(() {

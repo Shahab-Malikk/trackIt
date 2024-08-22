@@ -18,9 +18,7 @@ class ExpenseItem extends StatelessWidget {
 
   String get expenseAmount {
     String formattedAmount = expense.amount.toStringAsFixed(2);
-
-    //the dollar sign and handle negative amounts
-    return '-\$${formattedAmount}';
+    return '-$formattedAmount';
   }
 
   @override

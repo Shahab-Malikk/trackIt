@@ -58,7 +58,6 @@ class _AddIncomeState extends State<AddIncome> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
           width: 150.w,
@@ -85,15 +84,6 @@ class _AddIncomeState extends State<AddIncome> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // TextButton(
-              //     onPressed: () {
-              //       Navigator.pop(context);
-              //     },
-              //     child: const Text('Cancel',
-              //         style: TextStyle(
-              //           fontSize: TSizes.fontSizeLg,
-              //           color: TColors.black,
-              //         ))),
               SizedBox(
                 width: 150,
                 height: 60,

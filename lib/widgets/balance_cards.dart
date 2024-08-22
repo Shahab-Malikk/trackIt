@@ -32,7 +32,7 @@ class BalanceCards extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '\$${financialData.totalBalance.toStringAsFixed(1)}',
+                        financialData.totalBalance.toStringAsFixed(1),
                         style: const TextStyle(
                             color: TColors.lightGreen,
                             fontSize: 22,
@@ -72,7 +72,7 @@ class BalanceCards extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '\$${financialData.totalExpenses.toStringAsFixed(1)}',
+                        financialData.totalExpenses.toStringAsFixed(1),
                         style: const TextStyle(
                             color: TColors.lightOrange,
                             fontSize: 22,

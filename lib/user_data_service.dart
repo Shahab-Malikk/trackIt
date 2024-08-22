@@ -53,11 +53,9 @@ class UserDataService {
       if (userDoc.exists) {
         return userDoc.data() as Map<String, dynamic>;
       } else {
-        print('No data found for user with UID: $userId');
         return null;
       }
     } catch (e) {
-      print('Error fetching user data: $e');
       return null;
     }
   }

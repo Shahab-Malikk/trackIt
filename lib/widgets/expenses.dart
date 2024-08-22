@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/widgets/expenses_list.dart';
+import 'package:expense_tracker/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 
 class Expenses extends StatefulWidget {
@@ -15,13 +16,7 @@ class _ExpensesState extends State<Expenses> {
   @override
   Widget build(BuildContext context) {
     Widget mainContent = const Center(
-      child: Text(
-        'No expenses available',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
+      child: NoData(message: "No Expenses found, Add expenses."),
     );
     if (widget.expenses.isNotEmpty) {
       mainContent = ExpensesList(

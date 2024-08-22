@@ -4,7 +4,6 @@ import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class NewExpense extends StatefulWidget {
   final void Function(Expense expense) onAddExpense;
@@ -40,10 +39,6 @@ class _NewExpenseState extends State<NewExpense> {
     super.initState();
     _fetchCategories();
     _fetchContributors();
-    // if (widget.categories.isNotEmpty) {
-    //   _selectedCategory = widget.categories[0]
-    //       .name; // Assuming `ExpenseCategory` has a `name` property
-    // }
   }
 
   void _fetchContributors() async {
