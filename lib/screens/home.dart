@@ -1,6 +1,7 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
+import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/screens/categories.dart';
 import 'package:expense_tracker/screens/expenses.dart';
 import 'package:expense_tracker/screens/reconcilation.dart';
@@ -8,6 +9,7 @@ import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/user_data_service.dart';
 import 'package:expense_tracker/widgets/main_drawer.dart';
+import 'package:expense_tracker/widgets/projects_list.dart';
 import 'package:expense_tracker/widgets/wlecome_banner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
   String uid = '';
   // ignore: unused_field
   List<Expense> _registeredExpenses = [];
+  List<Project> _recentProjects = [];
   @override
   void initState() {
     super.initState();
     // fetchCurrentUser(); // Fetch and store expenses when the widget is loaded
     // _fetchAndStoreExpenses();
+    _fetchAndStoreRecentProjects();
   }
 
   void _fetchAndStoreExpenses() async {
@@ -55,6 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
     //       _registeredExpenses.fold(0.0, (sum, expense) => sum + expense.amount);
     //   financialData.updateTotalExpenses(totalExpenses);
     // });
+  }
+
+  void _fetchAndStoreRecentProjects() async {
+    List<Project> recentProjectsFromDb =
+        await UserDataService(fireStoreService).fetchRecentProjects(widget.uid);
+    setState(() {
+      _recentProjects = recentProjectsFromDb;
+    });
   }
 
   Future<void> fetchCurrentUser() async {
@@ -214,47 +226,25 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const SizedBox(height: 40),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: SizedBox(
-                    width: 300,
-                    height: 60,
-                    child: ElevatedButton(
-                      onPressed: _navigateToExpenses,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.home,
-                            size: 30.w,
-                            color: TColors.white,
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            'Expenses',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20.sp,
-                                    color: TColors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            const Text(
+              "Recent Projets",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-            SizedBox(
-              height: 30.h,
+            const SizedBox(height: 20),
+            const Text(
+              "Here are your recent projects , see all projects by navigating to Projects.",
+              style: TextStyle(fontSize: 16, color: Colors.black38),
             ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: ProjectsList(
+                projects: _recentProjects,
+                userId: widget.uid,
+              ),
+            )
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
+import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/screens/home.dart';
 import 'package:expense_tracker/screens/profile.dart';
 import 'package:expense_tracker/screens/projects.dart';
@@ -23,11 +24,12 @@ class _TabsState extends State<Tabs> {
   String userName = '';
   String uid = '';
   List<Expense> _registeredExpenses = [];
+  List<Project> _recentProjects = [];
   @override
   void initState() {
     super.initState();
-    fetchCurrentUser(); // Fetch and store expenses when the widget is loaded
-    _fetchAndStoreExpenses();
+    fetchCurrentUser();
+    // _fetchAndStoreRecentProjects();
   }
 
   void _fetchAndStoreExpenses() async {
@@ -43,6 +45,15 @@ class _TabsState extends State<Tabs> {
     //       _registeredExpenses.fold(0.0, (sum, expense) => sum + expense.amount);
     //   financialData.updateTotalExpenses(totalExpenses);
     // });
+  }
+
+  void _fetchAndStoreRecentProjects() async {
+    List<Project> recentProjectsFromDb =
+        await UserDataService(fireStoreService).fetchRecentProjects(uid);
+
+    setState(() {
+      _recentProjects = recentProjectsFromDb;
+    });
   }
 
   Future<void> fetchCurrentUser() async {

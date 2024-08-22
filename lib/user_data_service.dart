@@ -24,6 +24,19 @@ class UserDataService {
     });
   }
 
+  Future<List<Project>> fetchRecentProjects(String userId) async {
+    CollectionReference projectsCollection =
+        _usersCollection.doc(userId).collection("projects");
+    QuerySnapshot querySnapshot = await projectsCollection
+        .orderBy('date', descending: true)
+        .limit(3)
+        .get();
+
+    return querySnapshot.docs
+        .map((doc) => Project.fromMap(doc.data() as Map<String, dynamic>))
+        .toList();
+  }
+
   Future<List<Project>> fetchProjects(String userId) async {
     CollectionReference projectsCollection =
         _usersCollection.doc(userId).collection("projects");
