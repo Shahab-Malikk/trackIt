@@ -8,8 +8,10 @@ import 'package:expense_tracker/screens/reconcilation.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/user_data_service.dart';
+import 'package:expense_tracker/widgets/balance_cards.dart';
 import 'package:expense_tracker/widgets/main_drawer.dart';
 import 'package:expense_tracker/widgets/projects_list.dart';
+import 'package:expense_tracker/widgets/recent_projects.dart';
 import 'package:expense_tracker/widgets/wlecome_banner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -139,92 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
               userName: widget.userName,
             ),
             const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Card(
-                    color: TColors.white,
-                    elevation: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 10),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.trending_up_sharp,
-                            size: TSizes.iconLg,
-                            color: TColors.lightGreen,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '\$${financialData.totalBalance.toStringAsFixed(1)}',
-                                style: const TextStyle(
-                                    color: TColors.lightGreen,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w900),
-                              ),
-                              const Text(
-                                'Balance',
-                                style: TextStyle(
-                                    color: TColors.dark,
-                                    fontSize: TSizes.fontSizeLg),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Card(
-                    color: TColors.white,
-                    elevation: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 10),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.trending_down_sharp,
-                            size: TSizes.iconLg,
-                            color: TColors.lightOrange,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '\$${financialData.totalExpenses.toStringAsFixed(1)}',
-                                style: const TextStyle(
-                                    color: TColors.lightOrange,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w900),
-                              ),
-                              const Text(
-                                'Expenses',
-                                style: TextStyle(
-                                    color: TColors.dark,
-                                    fontSize: TSizes.fontSizeLg),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ), // Spacing between the cards
-              ],
-            ),
+            const BalanceCards(),
             const SizedBox(height: 40),
             const Text(
               "Recent Projets",
@@ -234,16 +151,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            const Text(
-              "Here are your recent projects , see all projects by navigating to Projects.",
-              style: TextStyle(fontSize: 16, color: Colors.black38),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ProjectsList(
-                projects: _recentProjects,
-                userId: widget.uid,
-              ),
+            RecentProjects(
+              recentProjects: _recentProjects,
+              userId: widget.uid,
             )
           ],
         ),
