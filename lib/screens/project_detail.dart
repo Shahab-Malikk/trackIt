@@ -6,6 +6,7 @@ import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/user_data_service.dart';
+import 'package:expense_tracker/utils/utility_functions.dart';
 import 'package:expense_tracker/widgets/expenses.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,14 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     try {
       await UserDataService(fireStoreService)
           .storeExpenseOfProjectInDb(expense, widget.userId, widget.project.id);
+      if (context.mounted) {
+        UtilityFunctions().showInfoMessage(
+          "Expense Added Sucessfuly.",
+          context,
+        );
+      }
     } catch (e) {
+      UtilityFunctions().showInfoMessage("An error occured.", context);
       print(e);
     }
   }
