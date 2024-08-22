@@ -255,63 +255,6 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 30.h,
             ),
-            Center(
-              child: SizedBox(
-                width: 300,
-                height: 60,
-                child: ElevatedButton(
-                  onPressed: _navigateToCategories,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add_circle, size: 30.w, color: TColors.white),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        'Add Categories',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.sp,
-                            color: TColors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 30.h,
-            ),
-            Center(
-              child: SizedBox(
-                width: 300,
-                height: 60,
-                child: ElevatedButton(
-                  onPressed: _navigateToReconcilation,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.credit_card,
-                        size: 30.w,
-                        color: TColors.white,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        'Reconcilation',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.sp,
-                            color: TColors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

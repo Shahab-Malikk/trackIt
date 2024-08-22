@@ -15,7 +15,7 @@ class UserDataService {
     CollectionReference projectsCollection =
         _usersCollection.doc(userId).collection("projects");
 
-    return projectsCollection.add({
+    return projectsCollection.doc(project.id).set({
       'id': project.id,
       'title': project.title,
       'date': project.date,
@@ -49,6 +49,20 @@ class UserDataService {
     }
   }
 
+  Future<List<Expense>> fetchExpensesOfCurrentProject(
+      String userId, String projectId) async {
+    CollectionReference expenseCollection = _usersCollection
+        .doc(userId)
+        .collection('projects')
+        .doc(projectId)
+        .collection("expenses");
+    QuerySnapshot snapshot = await expenseCollection.get();
+    return snapshot.docs
+        .map((doc) => Expense.fromMap(
+            doc.data() as Map<String, dynamic>)) // Extracting the 'name' field
+        .toList();
+  }
+
   Future<List<Expense>> fetchExpenses(String userId) async {
     CollectionReference expenseCollection =
         _usersCollection.doc(userId).collection('expenses');
@@ -62,6 +76,29 @@ class UserDataService {
   Future<void> storeExpenseInDb(Expense expense, String userId) {
     CollectionReference expenseCollection =
         _usersCollection.doc(userId).collection('expenses');
+
+    return expenseCollection
+        .add({
+          'id': expense.id,
+          'title': expense.title,
+          'date': expense.date,
+          'category': expense.category,
+          'subCategory': expense.subCategory,
+          'amount': expense.amount,
+          'description': expense.description,
+          'paidBy': expense.paidBy,
+        })
+        .then((value) => print("Expense Id"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  Future<void> storeExpenseOfProjectInDb(
+      Expense expense, String userId, String projectId) {
+    CollectionReference expenseCollection = _usersCollection
+        .doc(userId)
+        .collection("projects")
+        .doc(projectId)
+        .collection("expenses");
 
     return expenseCollection
         .add({

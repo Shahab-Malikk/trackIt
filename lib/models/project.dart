@@ -16,7 +16,8 @@ class Project {
     required this.date,
     required this.description,
     required this.initiatedBy,
-  }) : id = uuid.v4();
+    required this.id,
+  });
 
   String get formattedDate {
     return formatter.format(date);
@@ -24,6 +25,7 @@ class Project {
 
   factory Project.fromMap(Map<String, dynamic> data) {
     return Project(
+      id: data['id'],
       title: data['title'] ?? '',
       date: (data['date'] as Timestamp).toDate(),
       description: data['description'] ?? '',

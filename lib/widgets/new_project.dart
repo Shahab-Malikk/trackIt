@@ -5,6 +5,9 @@ import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+
+const uuid = Uuid();
 
 class NewProject extends StatefulWidget {
   final void Function(Project project) onAddProject;
@@ -74,6 +77,7 @@ class _NewProjectState extends State<NewProject> {
       return;
     }
     final project = Project(
+      id: uuid.v4(),
       title: _titleController.text,
       date: _selectedDate!,
       description: _descriptionController.text,
