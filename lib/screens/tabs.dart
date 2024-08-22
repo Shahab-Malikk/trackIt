@@ -1,7 +1,5 @@
-import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
-import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/screens/home.dart';
 import 'package:expense_tracker/screens/profile.dart';
 import 'package:expense_tracker/screens/projects.dart';
@@ -23,37 +21,11 @@ class _TabsState extends State<Tabs> {
   Map<String, dynamic>? userData;
   String userName = '';
   String uid = '';
-  List<Expense> _registeredExpenses = [];
-  List<Project> _recentProjects = [];
+
   @override
   void initState() {
     super.initState();
     fetchCurrentUser();
-    // _fetchAndStoreRecentProjects();
-  }
-
-  void _fetchAndStoreExpenses() async {
-    final List<Expense> expenses =
-        await UserDataService(fireStoreService).fetchExpenses(uid);
-    setState(() {
-      _registeredExpenses = expenses;
-    });
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   final financialData = Provider.of<FinancialData>(context, listen: false);
-    //   final totalExpenses =
-    //       _registeredExpenses.fold(0.0, (sum, expense) => sum + expense.amount);
-    //   financialData.updateTotalExpenses(totalExpenses);
-    // });
-  }
-
-  void _fetchAndStoreRecentProjects() async {
-    List<Project> recentProjectsFromDb =
-        await UserDataService(fireStoreService).fetchRecentProjects(uid);
-
-    setState(() {
-      _recentProjects = recentProjectsFromDb;
-    });
   }
 
   Future<void> fetchCurrentUser() async {
@@ -98,7 +70,6 @@ class _TabsState extends State<Tabs> {
   Widget build(BuildContext context) {
     Widget activePage = HomeScreen(
       uid: uid,
-      registeredExpenses: _registeredExpenses,
       userName: userName,
     );
     String activePageTitle = 'Expense Tarcker';
@@ -111,11 +82,11 @@ class _TabsState extends State<Tabs> {
     }
     if (_selectedPageIndex == 2) {
       activePageTitle = 'Reconcilation';
-      activePage = ReconcilationScreen();
+      activePage = const ReconcilationScreen();
     }
     if (_selectedPageIndex == 3) {
       activePageTitle = 'Profile';
-      activePage = ProfileScreen();
+      activePage = const ProfileScreen();
     }
     return Scaffold(
       appBar: AppBar(
