@@ -43,7 +43,7 @@ class _NewExpenseState extends State<NewExpense> {
 
   void _fetchContributors() async {
     final List<String> contributorsFromDb =
-        await CategoryService(fireStoreService).getContributors();
+        await CategoryService(fireStoreService).getRecievers();
     setState(() {
       contributors = contributorsFromDb;
     });

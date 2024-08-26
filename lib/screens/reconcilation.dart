@@ -1,24 +1,59 @@
 import 'package:expense_tracker/models/financial_data.dart';
+import 'package:expense_tracker/models/firestore_services.dart';
+import 'package:expense_tracker/models/income.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
+import 'package:expense_tracker/user_data_service.dart';
 import 'package:expense_tracker/widgets/add_income.dart';
+import 'package:expense_tracker/widgets/income_records.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class ReconcilationScreen extends StatefulWidget {
-  const ReconcilationScreen({super.key});
+  final String userId;
+  const ReconcilationScreen({super.key, required this.userId});
 
   @override
   State<ReconcilationScreen> createState() => _ReconcilationScreenState();
 }
 
 class _ReconcilationScreenState extends State<ReconcilationScreen> {
+  List<Income> _incomeRecord = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _fetchIncomeRecordFromDb();
+  }
+
+  void _addIncome(Income income) async {
+    setState(() {
+      _incomeRecord.add(income);
+    });
+
+    await UserDataService(fireStoreService)
+        .storeIncomeInDb(income, widget.userId);
+  }
+
+  void _fetchIncomeRecordFromDb() async {
+    List<Income> incomeRecordFromDb = await UserDataService(fireStoreService)
+        .fetchIncomeRecord(widget.userId);
+
+    setState(() {
+      _incomeRecord = incomeRecordFromDb;
+    });
+  }
+
   void _openAddIncomeOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (ctx) => const AddIncome(),
+      builder: (ctx) => AddIncome(
+        onAddIncome: _addIncome,
+        userId: widget.userId,
+      ),
     );
   }
 
@@ -112,6 +147,20 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              "Balance Record",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(child: IncomeRecords(incomeRecords: _incomeRecord)),
           ],
         ),
       ),

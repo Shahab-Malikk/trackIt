@@ -82,7 +82,9 @@ class _TabsState extends State<Tabs> {
     }
     if (_selectedPageIndex == 2) {
       activePageTitle = 'Reconcilation';
-      activePage = const ReconcilationScreen();
+      activePage = ReconcilationScreen(
+        userId: uid,
+      );
     }
     if (_selectedPageIndex == 3) {
       activePageTitle = 'Profile';

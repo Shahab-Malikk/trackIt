@@ -35,7 +35,7 @@ class _NewProjectState extends State<NewProject> {
 
   void _fetchContributors() async {
     final List<String> contributorsFromDb =
-        await CategoryService(fireStoreService).getContributors();
+        await CategoryService(fireStoreService).getSenders();
     setState(() {
       contributors = contributorsFromDb;
     });

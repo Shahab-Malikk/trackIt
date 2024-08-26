@@ -1,5 +1,6 @@
 import 'package:expense_tracker/auth_service.dart';
 import 'package:expense_tracker/screens/home.dart';
+import 'package:expense_tracker/screens/tabs.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -65,8 +66,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     userName: _userNameController.text,
                   );
                   if (message!.contains('Success')) {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const HomeScreen()));
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const Tabs(),
+                      ),
+                    );
                   }
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

@@ -46,10 +46,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       financialData.updateTotalExpenses(totalExpenses);
       final balance = financialData.leftBalance - expense.amount;
       financialData.updateTotalIncome(balance);
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc('SSQPg3UmfvhN4HcEEX5PybgTHG62')
-          .update({
+      FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
         'expenses': totalExpenses,
         'balance': balance,
       });

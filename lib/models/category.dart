@@ -45,8 +45,17 @@ class CategoryService {
         .toList();
   }
 
-  Future<List<String>> getContributors() async {
-    final querySnapshot = await _contributorsCollection.get();
+  Future<List<String>> getSenders() async {
+    final querySnapshot =
+        await _contributorsCollection.where('type', isEqualTo: 'sender').get();
+
+    return querySnapshot.docs.map((doc) => doc['name'] as String).toList();
+  }
+
+  Future<List<String>> getRecievers() async {
+    final querySnapshot = await _contributorsCollection
+        .where('type', isEqualTo: 'receiever')
+        .get();
 
     return querySnapshot.docs.map((doc) => doc['name'] as String).toList();
   }
