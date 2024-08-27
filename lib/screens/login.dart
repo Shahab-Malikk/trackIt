@@ -27,6 +27,13 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'assets/images/trackitLogo.png',
+              width: 200,
+            ),
+            const SizedBox(
+              height: 50,
+            ),
             SizedBox(
               child: TextField(
                 controller: _emailController,
