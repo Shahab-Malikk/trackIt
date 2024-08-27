@@ -20,7 +20,7 @@ class UserDataService {
       {
         'id': income.id,
         'date': income.date,
-        'initiatedBy': income.paidBy,
+        'paidBy': income.paidBy,
         'description': income.description,
         'amount': income.amount,
       },

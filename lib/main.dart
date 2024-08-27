@@ -1,7 +1,7 @@
 import 'package:expense_tracker/firebase_options.dart';
 import 'package:expense_tracker/models/financial_data.dart';
+import 'package:expense_tracker/screens/splash.dart';
 import 'package:expense_tracker/theme/theme.dart';
-import 'package:expense_tracker/widgets/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,7 +48,7 @@ class App extends StatelessWidget {
         );
         return child!;
       },
-      home: Wrapper(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -72,7 +72,7 @@ class _TabsState extends State<Tabs> {
       uid: uid,
       userName: userName,
     );
-    String activePageTitle = 'Expense Tarcker';
+    String activePageTitle = 'TrackIt';
 
     if (_selectedPageIndex == 1) {
       activePageTitle = 'Projects';
