@@ -1,5 +1,4 @@
 import 'package:expense_tracker/auth_service.dart';
-import 'package:expense_tracker/screens/home.dart';
 import 'package:expense_tracker/screens/tabs.dart';
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,5 @@
 import 'package:expense_tracker/firebase_options.dart';
 import 'package:expense_tracker/models/financial_data.dart';
-import 'package:expense_tracker/screens/onboarding.dart';
 import 'package:expense_tracker/screens/splash.dart';
 import 'package:expense_tracker/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';

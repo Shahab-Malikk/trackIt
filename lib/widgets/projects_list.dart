@@ -33,7 +33,7 @@ class ProjectsList extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center, // Center vertically
           crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
-          children: const [
+          children: [
             NoData(
               message: "Add projects to track expenses",
             ),
