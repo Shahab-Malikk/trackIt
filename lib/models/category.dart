@@ -15,5 +15,3 @@ class ExpenseCategory {
     );
   }
 }
-
-// Includes methods related to the Categories Functionlities i.e. fetching categories, fetching subcategories

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
@@ -28,9 +27,10 @@ class Expense {
 
   factory Expense.fromMap(Map<String, dynamic> data) {
     return Expense(
-      title: data['title'] ?? '', // Replace 'name' with your actual field name
+      title: data['title'] ??
+          '', // If the title is not present, default to an empty string
       amount: data['amount']?.toDouble() ??
-          0.0, // Replace 'amount' with your actual field name
+          0.0, // If the amount is not present, default to 0.0
       date: (data['date'] as Timestamp).toDate(),
       category: data['category'],
       subCategory: data['subCategory'],
@@ -41,39 +41,5 @@ class Expense {
 
   String get formattedDate {
     return formatter.format(date);
-  }
-}
-
-// Includes functionalities related to the Expenses i.e Adding a expense , fetching all expenses
-class ExpenseService {
-  final FirestoreServices _firestoreService;
-
-  ExpenseService(this._firestoreService);
-
-  CollectionReference get _expensesCollection =>
-      _firestoreService.db.collection('expenses');
-
-  Future<List<Expense>> fetchExpenses() async {
-    QuerySnapshot snapshot = await _expensesCollection.get();
-    return snapshot.docs
-        .map((doc) => Expense.fromMap(
-            doc.data() as Map<String, dynamic>)) // Extracting the 'name' field
-        .toList();
-  }
-
-  Future<void> storeExpenseInDb(Expense expense) {
-    return _expensesCollection
-        .add({
-          'id': expense.id,
-          'title': expense.title,
-          'date': expense.date,
-          'category': expense.category,
-          'subCategory': expense.subCategory,
-          'amount': expense.amount,
-          'description': expense.description,
-          'paidBy': expense.paidBy,
-        })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
   }
 }

@@ -88,11 +88,6 @@ class _NewExpenseState extends State<NewExpense> {
       _selectedCategory = selectedCategory.name;
       subCategories = subCategoriesFromDb;
     });
-
-    print(selectedCategory.id);
-    print(selectedCategory.name);
-    print('Here are subcategories');
-    print(subCategoriesFromDb);
   }
 
   void _submitExpenseData() async {
