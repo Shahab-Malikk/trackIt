@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
-import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/theme/colors.dart';
-import 'package:expense_tracker/user_data_service.dart';
 import 'package:expense_tracker/widgets/expenses.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +10,8 @@ import 'package:provider/provider.dart';
 class ExpensesScreen extends StatefulWidget {
   final String userId;
   final List<Expense> registeredExpenses;
-  ExpensesScreen({required this.userId, required this.registeredExpenses});
+  const ExpensesScreen(
+      {super.key, required this.userId, required this.registeredExpenses});
   @override
   State<ExpensesScreen> createState() => _ExpensesScreenState();
 }
@@ -53,8 +52,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     });
 
     try {
-      await UserDataService(fireStoreService)
-          .storeExpenseInDb(expense, widget.userId);
       if (context.mounted) {
         _showInfoMessage("Expense Added Successfully");
       }
