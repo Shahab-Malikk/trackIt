@@ -66,7 +66,7 @@ class _AddIncomeState extends State<AddIncome> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final financialData = Provider.of<FinancialData>(context, listen: false);
-      double previousBalance = financialData.leftBalance;
+      double previousBalance = financialData.totalBalance;
       financialData.updateTotalIncome(enteredAmount);
       double currentBalance = previousBalance + enteredAmount;
       financialData.updateTotalIncome(currentBalance);

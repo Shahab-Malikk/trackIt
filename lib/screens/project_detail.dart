@@ -52,7 +52,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     final financialData = Provider.of<FinancialData>(context, listen: false);
     final totalExpenses = financialData.totalExpenses + expense.amount;
     financialData.updateTotalExpenses(totalExpenses);
-    final balance = financialData.leftBalance - expense.amount;
+    final balance = financialData.totalBalance - expense.amount;
     financialData.updateTotalIncome(balance);
     FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
       'expenses': totalExpenses,

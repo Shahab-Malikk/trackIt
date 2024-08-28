@@ -44,7 +44,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       final totalExpenses = widget.registeredExpenses
           .fold(0.0, (sum, expense) => sum + expense.amount);
       financialData.updateTotalExpenses(totalExpenses);
-      final balance = financialData.leftBalance - expense.amount;
+      final balance = financialData.totalBalance - expense.amount;
       financialData.updateTotalIncome(balance);
       FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
         'expenses': totalExpenses,
