@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_tracker/fireStore_Services/expenses_service.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
-import 'package:expense_tracker/user_data_service.dart';
 import 'package:expense_tracker/utils/utility_functions.dart';
 import 'package:expense_tracker/widgets/expenses.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
@@ -59,7 +59,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
       'balance': balance,
     });
     try {
-      await UserDataService(fireStoreService)
+      await ExpensesService(fireStoreService)
           .storeExpenseOfProjectInDb(expense, widget.userId, widget.project.id);
       if (context.mounted) {
         UtilityFunctions().showInfoMessage(
@@ -73,7 +73,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   }
 
   void _fetchAndStoreExpenses() async {
-    final List<Expense> expenses = await UserDataService(fireStoreService)
+    final List<Expense> expenses = await ExpensesService(fireStoreService)
         .fetchExpensesOfCurrentProject(widget.userId, widget.project.id);
     setState(() {
       _registeredExpenses = expenses;

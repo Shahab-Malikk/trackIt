@@ -39,6 +39,7 @@ class ProjectsService {
         .toList();
   }
 
+//Fetch all  Projects
   Future<List<Project>> fetchProjects(String userId) async {
     CollectionReference projectsCollection =
         _usersCollection.doc(userId).collection("projects");

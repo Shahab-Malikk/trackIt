@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
-import 'package:expense_tracker/models/income.dart';
-import 'package:expense_tracker/models/project.dart';
 
 class UserDataService {
   final FirestoreServices _firestoreService;
@@ -12,30 +10,30 @@ class UserDataService {
   CollectionReference get _usersCollection =>
       _firestoreService.db.collection('users');
 
-  Future<void> storeIncomeInDb(Income income, String userId) {
-    CollectionReference projectsCollection =
-        _usersCollection.doc(userId).collection("income");
+  // Future<void> storeIncomeInDb(Income income, String userId) {
+  //   CollectionReference projectsCollection =
+  //       _usersCollection.doc(userId).collection("income");
 
-    return projectsCollection.doc(income.id).set(
-      {
-        'id': income.id,
-        'date': income.date,
-        'paidBy': income.paidBy,
-        'description': income.description,
-        'amount': income.amount,
-      },
-    );
-  }
+  //   return projectsCollection.doc(income.id).set(
+  //     {
+  //       'id': income.id,
+  //       'date': income.date,
+  //       'paidBy': income.paidBy,
+  //       'description': income.description,
+  //       'amount': income.amount,
+  //     },
+  //   );
+  // }
 
-  Future<List<Income>> fetchIncomeRecord(String userId) async {
-    CollectionReference projectsCollection =
-        _usersCollection.doc(userId).collection("income");
-    QuerySnapshot querySnapshot = await projectsCollection.get();
+  // Future<List<Income>> fetchIncomeRecord(String userId) async {
+  //   CollectionReference projectsCollection =
+  //       _usersCollection.doc(userId).collection("income");
+  //   QuerySnapshot querySnapshot = await projectsCollection.get();
 
-    return querySnapshot.docs
-        .map((doc) => Income.fromMap(doc.data() as Map<String, dynamic>))
-        .toList();
-  }
+  //   return querySnapshot.docs
+  //       .map((doc) => Income.fromMap(doc.data() as Map<String, dynamic>))
+  //       .toList();
+  // }
 
   // Future<void> storeProjectInDb(Project project, String userId) {
   //   CollectionReference projectsCollection =
@@ -86,19 +84,19 @@ class UserDataService {
     }
   }
 
-  Future<List<Expense>> fetchExpensesOfCurrentProject(
-      String userId, String projectId) async {
-    CollectionReference expenseCollection = _usersCollection
-        .doc(userId)
-        .collection('projects')
-        .doc(projectId)
-        .collection("expenses");
-    QuerySnapshot snapshot = await expenseCollection.get();
-    return snapshot.docs
-        .map((doc) => Expense.fromMap(
-            doc.data() as Map<String, dynamic>)) // Extracting the 'name' field
-        .toList();
-  }
+  // Future<List<Expense>> fetchExpensesOfCurrentProject(
+  //     String userId, String projectId) async {
+  //   CollectionReference expenseCollection = _usersCollection
+  //       .doc(userId)
+  //       .collection('projects')
+  //       .doc(projectId)
+  //       .collection("expenses");
+  //   QuerySnapshot snapshot = await expenseCollection.get();
+  //   return snapshot.docs
+  //       .map((doc) => Expense.fromMap(
+  //           doc.data() as Map<String, dynamic>)) // Extracting the 'name' field
+  //       .toList();
+  // }
 
   Future<List<Expense>> fetchExpenses(String userId) async {
     CollectionReference expenseCollection =
@@ -129,26 +127,26 @@ class UserDataService {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
-  Future<void> storeExpenseOfProjectInDb(
-      Expense expense, String userId, String projectId) {
-    CollectionReference expenseCollection = _usersCollection
-        .doc(userId)
-        .collection("projects")
-        .doc(projectId)
-        .collection("expenses");
+  // Future<void> storeExpenseOfProjectInDb(
+  //     Expense expense, String userId, String projectId) {
+  //   CollectionReference expenseCollection = _usersCollection
+  //       .doc(userId)
+  //       .collection("projects")
+  //       .doc(projectId)
+  //       .collection("expenses");
 
-    return expenseCollection
-        .add({
-          'id': expense.id,
-          'title': expense.title,
-          'date': expense.date,
-          'category': expense.category,
-          'subCategory': expense.subCategory,
-          'amount': expense.amount,
-          'description': expense.description,
-          'paidBy': expense.paidBy,
-        })
-        .then((value) => print("Expense Id"))
-        .catchError((error) => print("Failed to add user: $error"));
-  }
+  //   return expenseCollection
+  //       .add({
+  //         'id': expense.id,
+  //         'title': expense.title,
+  //         'date': expense.date,
+  //         'category': expense.category,
+  //         'subCategory': expense.subCategory,
+  //         'amount': expense.amount,
+  //         'description': expense.description,
+  //         'paidBy': expense.paidBy,
+  //       })
+  //       .then((value) => print("Expense Id"))
+  //       .catchError((error) => print("Failed to add user: $error"));
+  // }
 }

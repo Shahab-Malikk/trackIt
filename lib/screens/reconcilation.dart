@@ -1,9 +1,9 @@
+import 'package:expense_tracker/fireStore_Services/income_srvice.dart';
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/income.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
-import 'package:expense_tracker/user_data_service.dart';
 import 'package:expense_tracker/widgets/add_income.dart';
 import 'package:expense_tracker/widgets/income_records.dart';
 import 'package:flutter/material.dart';
@@ -33,13 +33,12 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
       _incomeRecord.add(income);
     });
 
-    await UserDataService(fireStoreService)
-        .storeIncomeInDb(income, widget.userId);
+    await IncomeSrvice(fireStoreService).storeIncomeInDb(income, widget.userId);
   }
 
   void _fetchIncomeRecordFromDb() async {
-    List<Income> incomeRecordFromDb = await UserDataService(fireStoreService)
-        .fetchIncomeRecord(widget.userId);
+    List<Income> incomeRecordFromDb =
+        await IncomeSrvice(fireStoreService).fetchIncomeRecord(widget.userId);
 
     setState(() {
       _incomeRecord = incomeRecordFromDb;
