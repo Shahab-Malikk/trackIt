@@ -14,6 +14,7 @@ class AuthService {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((result) {
+        // Create a new document in the user collection with the uid
         _userCollection.doc(result.user!.uid).set({
           'userName': userName,
           'email': email,

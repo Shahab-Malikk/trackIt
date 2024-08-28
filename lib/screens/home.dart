@@ -1,3 +1,4 @@
+import 'package:expense_tracker/fireStore_Services/projects_service.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _fetchAndStoreRecentProjects() async {
     List<Project> recentProjectsFromDb =
-        await UserDataService(fireStoreService).fetchRecentProjects(widget.uid);
+        await ProjectsService(fireStoreService).fetchRecentProjects(widget.uid);
     setState(() {
       _recentProjects = recentProjectsFromDb;
     });

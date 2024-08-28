@@ -1,3 +1,4 @@
+import 'package:expense_tracker/fireStore_Services/projects_service.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/theme/colors.dart';
@@ -42,7 +43,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
     });
 
     try {
-      await UserDataService(fireStoreService)
+      await ProjectsService(fireStoreService)
           .storeProjectInDb(project, widget.userId);
       if (context.mounted) {
         UtilityFunctions().showInfoMessage(
@@ -61,7 +62,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   void _fetchProjectsFromDb() async {
     try {
       final List<Project> projectsFromDb =
-          await UserDataService(fireStoreService).fetchProjects(widget.userId);
+          await ProjectsService(fireStoreService).fetchProjects(widget.userId);
 
       setState(() {
         projects = projectsFromDb;
