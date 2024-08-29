@@ -3,15 +3,27 @@ import 'package:expense_tracker/screens/signup.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  Future<void> _setOnboardingCompleted() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isOnboardingCompleted', true);
+  }
 
   @override
   Widget build(BuildContext context) {
     return OnBoardingSlider(
       finishButtonText: 'Register',
       onFinish: () {
+        _setOnboardingCompleted();
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -39,6 +51,7 @@ class OnboardingScreen extends StatelessWidget {
         ),
       ),
       trailingFunction: () {
+        _setOnboardingCompleted();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

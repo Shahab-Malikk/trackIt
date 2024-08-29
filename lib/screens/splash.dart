@@ -1,6 +1,8 @@
+import 'package:expense_tracker/screens/onboarding.dart';
 import 'package:expense_tracker/widgets/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,9 +20,28 @@ class _SplashScreenState extends State<SplashScreen>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
     Future.delayed(const Duration(seconds: 5), () {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => Wrapper()));
+      _isOnboardingCompleted();
     });
+  }
+
+  Future<void> _isOnboardingCompleted() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final isOnboardingCompleted = prefs.getBool('isOnboardingCompleted');
+    if (isOnboardingCompleted != null && isOnboardingCompleted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Wrapper(),
+        ),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const OnboardingScreen(),
+        ),
+      );
+    }
   }
 
   @override

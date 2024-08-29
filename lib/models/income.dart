@@ -11,12 +11,13 @@ class Income {
   final String paidBy;
   final double amount;
 
-  Income(
-      {required this.date,
-      required this.description,
-      required this.paidBy,
-      required this.id,
-      required this.amount});
+  Income({
+    required this.date,
+    required this.description,
+    required this.paidBy,
+    required this.id,
+    required this.amount,
+  });
 
   String get formattedDate {
     return formatter.format(date);
@@ -26,9 +27,12 @@ class Income {
     return Income(
       id: data['id'],
       date: (data['date'] as Timestamp).toDate(),
-      description: data['description'] ?? '',
-      paidBy: data['paidBy'] ?? '',
-      amount: data['amount'] ?? '',
+      description: data['description'] ??
+          '', // If the description is not present, default to an empty string
+      paidBy: data['paidBy'] ??
+          '', // If the paidBy is not present, default to an empty string
+      amount: data['amount'] ??
+          '', // If the amount is not present, default to an empty string
     );
   }
 }
