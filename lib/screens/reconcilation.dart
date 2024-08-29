@@ -61,7 +61,10 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
     final financialData = Provider.of<FinancialData>(context);
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 20,
+        ),
         child: Column(
           children: [
             Row(
@@ -72,7 +75,9 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
                     elevation: 1,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 50, horizontal: 15),
+                        vertical: 50,
+                        horizontal: 15,
+                      ),
                       child: Row(
                         children: [
                           const Column(
@@ -105,9 +110,10 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
                               Text(
                                 '\$ ${financialData.totalBalance.toString()}',
                                 style: const TextStyle(
-                                    color: TColors.lightGreen,
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.w900),
+                                  color: TColors.lightGreen,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w900,
+                                ),
                               ),
                             ],
                           ),
@@ -130,16 +136,21 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add_circle, size: 30.w, color: TColors.white),
+                      Icon(
+                        Icons.add_circle,
+                        size: 30.w,
+                        color: TColors.white,
+                      ),
                       const SizedBox(
                         width: 8,
                       ),
                       Text(
                         'Add Balance',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.sp,
-                            color: TColors.white),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20.sp,
+                              color: TColors.white,
+                            ),
                       ),
                     ],
                   ),
@@ -159,7 +170,11 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
             const SizedBox(
               height: 20,
             ),
-            Expanded(child: IncomeRecords(incomeRecords: _incomeRecord)),
+            Expanded(
+              child: IncomeRecords(
+                incomeRecords: _incomeRecord,
+              ),
+            ),
           ],
         ),
       ),

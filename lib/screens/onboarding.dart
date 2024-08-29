@@ -76,7 +76,7 @@ class OnboardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
+              SizedBox(
                 height: 250,
               ),
               Text(
@@ -88,10 +88,10 @@ class OnboardingScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 20,
               ),
-              const Text(
+              Text(
                 'Quickly log your daily expenses and stay in control of your finances.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -111,10 +111,10 @@ class OnboardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
+              SizedBox(
                 height: 480,
               ),
-              const Text(
+              Text(
                 'Visualize Your Spending',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -123,10 +123,10 @@ class OnboardingScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 20,
               ),
-              const Text(
+              Text(
                 'See where your money goes with clear charts and insights',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -146,7 +146,7 @@ class OnboardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
+              SizedBox(
                 height: 480,
               ),
               Text(
@@ -158,10 +158,10 @@ class OnboardingScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 20,
               ),
-              const Text(
+              Text(
                 'Set budgets and track your progress to reach your financial goals.',
                 textAlign: TextAlign.center,
                 style: TextStyle(

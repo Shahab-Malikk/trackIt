@@ -187,7 +187,9 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             ),
             Expanded(
               child: Expenses(
-                  expenses: _registeredExpenses, onRemoveItem: _removeExpense),
+                expenses: _registeredExpenses,
+                onRemoveItem: _removeExpense,
+              ),
             ),
           ],
         ),
