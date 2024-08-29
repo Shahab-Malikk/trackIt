@@ -27,21 +27,17 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _isOnboardingCompleted() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final isOnboardingCompleted = prefs.getBool('isOnboardingCompleted');
-    if (isOnboardingCompleted != null && isOnboardingCompleted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Wrapper(),
-        ),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const OnboardingScreen(),
-        ),
-      );
-    }
+    Widget toBeNavigated;
+    (isOnboardingCompleted != null && isOnboardingCompleted)
+        ? toBeNavigated = const Wrapper()
+        : toBeNavigated = const OnboardingScreen();
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => toBeNavigated,
+      ),
+    );
   }
 
   @override

@@ -21,7 +21,8 @@ class ExpensesService {
         .collection("expenses");
 
     return expenseCollection
-        .add({
+        .doc(expense.id)
+        .set({
           'id': expense.id,
           'title': expense.title,
           'date': expense.date,
@@ -48,5 +49,19 @@ class ExpensesService {
         .map((doc) => Expense.fromMap(
             doc.data() as Map<String, dynamic>)) // Extracting the 'name' field
         .toList();
+  }
+
+  Future<void> deleteExpenseOfProject(
+      String userId, String projectId, String expenseId) {
+    CollectionReference expenseCollection = _usersCollection
+        .doc(userId)
+        .collection('projects')
+        .doc(projectId)
+        .collection("expenses");
+    return expenseCollection
+        .doc(expenseId)
+        .delete()
+        .then((value) => print("Expense Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
   }
 }

@@ -11,10 +11,6 @@ class Wrapper extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
 
     // Check if the user is logged in
-    if (user != null) {
-      return const Tabs();
-    } else {
-      return const LoginScreen();
-    }
+    return user != null ? const Tabs() : const LoginScreen();
   }
 }

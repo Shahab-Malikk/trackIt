@@ -196,7 +196,6 @@ class _NewExpenseState extends State<NewExpense> {
                   );
                 }).toList(),
                 onChanged: (value) {
-                  print(value);
                   if (value != null) {
                     _onCategoryChanged(value);
                   }
@@ -227,7 +226,7 @@ class _NewExpenseState extends State<NewExpense> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               DropdownButton<String>(
-                hint: const Text('Paid By'),
+                hint: const Text('Paid To'),
                 value: _paidBy,
                 items: contributors.map((person) {
                   return DropdownMenuItem<String>(
@@ -265,14 +264,17 @@ class _NewExpenseState extends State<NewExpense> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancel',
-                      style: TextStyle(
-                        fontSize: TSizes.fontSizeLg,
-                        color: TColors.black,
-                      ))),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    fontSize: TSizes.fontSizeLg,
+                    color: TColors.black,
+                  ),
+                ),
+              ),
               SizedBox(
                 width: 150,
                 height: 60,
