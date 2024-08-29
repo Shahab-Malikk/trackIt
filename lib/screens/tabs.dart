@@ -4,7 +4,7 @@ import 'package:expense_tracker/screens/home.dart';
 import 'package:expense_tracker/screens/profile.dart';
 import 'package:expense_tracker/screens/projects.dart';
 import 'package:expense_tracker/screens/reconcilation.dart';
-import 'package:expense_tracker/user_data_service.dart';
+import 'package:expense_tracker/fireStore_Services/user_data_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

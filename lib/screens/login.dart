@@ -1,4 +1,4 @@
-import 'package:expense_tracker/auth_service.dart';
+import 'package:expense_tracker/fireStore_Services/auth_service.dart';
 import 'package:expense_tracker/screens/signup.dart';
 import 'package:expense_tracker/screens/tabs.dart';
 import 'package:expense_tracker/theme/colors.dart';
@@ -6,7 +6,7 @@ import 'package:expense_tracker/theme/sizes.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();

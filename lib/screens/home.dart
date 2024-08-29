@@ -3,7 +3,7 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
-import 'package:expense_tracker/user_data_service.dart';
+import 'package:expense_tracker/fireStore_Services/user_data_service.dart';
 import 'package:expense_tracker/widgets/balance_cards.dart';
 import 'package:expense_tracker/widgets/recent_projects.dart';
 import 'package:expense_tracker/widgets/wlecome_banner.dart';

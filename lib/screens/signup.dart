@@ -1,9 +1,9 @@
-import 'package:expense_tracker/auth_service.dart';
+import 'package:expense_tracker/fireStore_Services/auth_service.dart';
 import 'package:expense_tracker/screens/tabs.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+  const SignupScreen({super.key});
 
   @override
   _SignupScreenState createState() => _SignupScreenState();
