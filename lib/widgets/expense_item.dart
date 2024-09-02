@@ -18,14 +18,12 @@ class ExpenseItem extends StatelessWidget {
 
   String get expenseAmount {
     String formattedAmount = expense.amount.toStringAsFixed(2);
-
-    //the dollar sign and handle negative amounts
-    return '-\$${formattedAmount}';
+    return '-$formattedAmount';
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDescriptionNotNull = expense.description.trim() != '';
+    // final isDescriptionNotNull = expense.description.trim() != '';
     final isPaidbyNameNotNull = expense.paidBy.trim() != '';
 
     return Card(
@@ -57,7 +55,7 @@ class ExpenseItem extends StatelessWidget {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -84,7 +82,7 @@ class ExpenseItem extends StatelessWidget {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Column(
                 children: [
                   Text(

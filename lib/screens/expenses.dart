@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
-import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/theme/colors.dart';
-import 'package:expense_tracker/user_data_service.dart';
 import 'package:expense_tracker/widgets/expenses.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -11,19 +9,17 @@ import 'package:provider/provider.dart';
 
 class ExpensesScreen extends StatefulWidget {
   final String userId;
-  List<Expense> registeredExpenses;
-  ExpensesScreen({required this.userId, required this.registeredExpenses});
+  final List<Expense> registeredExpenses;
+  const ExpensesScreen(
+      {super.key, required this.userId, required this.registeredExpenses});
   @override
   State<ExpensesScreen> createState() => _ExpensesScreenState();
 }
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
-  // List<Expense> _registeredExpenses = [];
-
   @override
   void initState() {
     super.initState();
-    // _fetchAndStoreExpenses(); // Fetch and store expenses when the widget is loaded
   }
 
   void _openAddExpenseOverlay() {
@@ -37,21 +33,6 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     );
   }
 
-  // void _fetchAndStoreExpenses() async {
-  //   final List<Expense> expenses =
-  //       await UserDataService(fireStoreService).fetchExpenses(widget.userId);
-  //   setState(() {
-  //     _registeredExpenses = expenses;
-  //   });
-
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     final financialData = Provider.of<FinancialData>(context, listen: false);
-  //     final totalExpenses =
-  //         expenses.fold(0.0, (sum, expense) => sum + expense.amount);
-  //     financialData.updateTotalExpenses(totalExpenses);
-  //   });
-  // }
-
   void _addExpense(Expense expense) async {
     setState(() {
       widget.registeredExpenses.add(expense);
@@ -62,20 +43,15 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       final totalExpenses = widget.registeredExpenses
           .fold(0.0, (sum, expense) => sum + expense.amount);
       financialData.updateTotalExpenses(totalExpenses);
-      final balance = financialData.leftBalance - expense.amount;
+      final balance = financialData.totalBalance - expense.amount;
       financialData.updateTotalIncome(balance);
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc('SSQPg3UmfvhN4HcEEX5PybgTHG62')
-          .update({
+      FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
         'expenses': totalExpenses,
         'balance': balance,
       });
     });
 
     try {
-      await UserDataService(fireStoreService)
-          .storeExpenseInDb(expense, widget.userId);
       if (context.mounted) {
         _showInfoMessage("Expense Added Successfully");
       }

@@ -1,11 +1,10 @@
-import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/screens/home.dart';
 import 'package:expense_tracker/screens/profile.dart';
 import 'package:expense_tracker/screens/projects.dart';
 import 'package:expense_tracker/screens/reconcilation.dart';
-import 'package:expense_tracker/user_data_service.dart';
+import 'package:expense_tracker/fireStore_Services/user_data_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,27 +21,11 @@ class _TabsState extends State<Tabs> {
   Map<String, dynamic>? userData;
   String userName = '';
   String uid = '';
-  List<Expense> _registeredExpenses = [];
+
   @override
   void initState() {
     super.initState();
-    fetchCurrentUser(); // Fetch and store expenses when the widget is loaded
-    _fetchAndStoreExpenses();
-  }
-
-  void _fetchAndStoreExpenses() async {
-    final List<Expense> expenses =
-        await UserDataService(fireStoreService).fetchExpenses(uid);
-    setState(() {
-      _registeredExpenses = expenses;
-    });
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   final financialData = Provider.of<FinancialData>(context, listen: false);
-    //   final totalExpenses =
-    //       _registeredExpenses.fold(0.0, (sum, expense) => sum + expense.amount);
-    //   financialData.updateTotalExpenses(totalExpenses);
-    // });
+    fetchCurrentUser();
   }
 
   Future<void> fetchCurrentUser() async {
@@ -55,7 +38,7 @@ class _TabsState extends State<Tabs> {
       try {
         userData = await UserDataService(fireStoreService).getUserData(uid);
         if (userData != null) {
-          print('User Data: $userData');
+          // debugPrint('User Data: $userData');
           setState(() {
             userName = userData?['userName'];
           });
@@ -87,22 +70,25 @@ class _TabsState extends State<Tabs> {
   Widget build(BuildContext context) {
     Widget activePage = HomeScreen(
       uid: uid,
-      registeredExpenses: _registeredExpenses,
       userName: userName,
     );
-    String activePageTitle = 'Expense Tarcker';
+    String activePageTitle = 'TrackIt';
 
     if (_selectedPageIndex == 1) {
       activePageTitle = 'Projects';
-      activePage = ProjectsScreen();
+      activePage = ProjectsScreen(
+        userId: uid,
+      );
     }
     if (_selectedPageIndex == 2) {
       activePageTitle = 'Reconcilation';
-      activePage = ReconcilationScreen();
+      activePage = ReconcilationScreen(
+        userId: uid,
+      );
     }
     if (_selectedPageIndex == 3) {
       activePageTitle = 'Profile';
-      activePage = ProfileScreen();
+      activePage = const ProfileScreen();
     }
     return Scaffold(
       appBar: AppBar(

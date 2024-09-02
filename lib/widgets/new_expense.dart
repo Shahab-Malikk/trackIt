@@ -1,16 +1,21 @@
+import 'package:expense_tracker/fireStore_Services/category_service.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class NewExpense extends StatefulWidget {
   final void Function(Expense expense) onAddExpense;
   final String userId;
-  const NewExpense(
-      {super.key, required this.onAddExpense, required this.userId});
+  final String projectId;
+  const NewExpense({
+    super.key,
+    required this.onAddExpense,
+    required this.userId,
+    this.projectId = "",
+  });
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -35,15 +40,11 @@ class _NewExpenseState extends State<NewExpense> {
     super.initState();
     _fetchCategories();
     _fetchContributors();
-    // if (widget.categories.isNotEmpty) {
-    //   _selectedCategory = widget.categories[0]
-    //       .name; // Assuming `ExpenseCategory` has a `name` property
-    // }
   }
 
   void _fetchContributors() async {
     final List<String> contributorsFromDb =
-        await CategoryService(fireStoreService).getContributors();
+        await CategoryService(fireStoreService).getRecievers();
     setState(() {
       contributors = contributorsFromDb;
     });
@@ -87,11 +88,6 @@ class _NewExpenseState extends State<NewExpense> {
       _selectedCategory = selectedCategory.name;
       subCategories = subCategoriesFromDb;
     });
-
-    print(selectedCategory.id);
-    print(selectedCategory.name);
-    print('Here are subcategories');
-    print(subCategoriesFromDb);
   }
 
   void _submitExpenseData() async {
@@ -200,7 +196,6 @@ class _NewExpenseState extends State<NewExpense> {
                   );
                 }).toList(),
                 onChanged: (value) {
-                  print(value);
                   if (value != null) {
                     _onCategoryChanged(value);
                   }
@@ -231,7 +226,7 @@ class _NewExpenseState extends State<NewExpense> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               DropdownButton<String>(
-                hint: const Text('Paid By'),
+                hint: const Text('Paid To'),
                 value: _paidBy,
                 items: contributors.map((person) {
                   return DropdownMenuItem<String>(
@@ -269,20 +264,24 @@ class _NewExpenseState extends State<NewExpense> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancel',
-                      style: TextStyle(
-                        fontSize: TSizes.fontSizeLg,
-                        color: TColors.black,
-                      ))),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    fontSize: TSizes.fontSizeLg,
+                    color: TColors.black,
+                  ),
+                ),
+              ),
               SizedBox(
                 width: 150,
                 height: 60,
                 child: ElevatedButton(
-                    onPressed: _submitExpenseData,
-                    child: const Text('Save Title')),
+                  onPressed: _submitExpenseData,
+                  child: const Text('Save Expense'),
+                ),
               ),
             ],
           )

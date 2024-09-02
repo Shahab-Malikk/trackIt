@@ -1,14 +1,15 @@
-import 'package:expense_tracker/auth_service.dart';
-import 'package:expense_tracker/screens/home.dart';
+import 'package:expense_tracker/fireStore_Services/auth_service.dart';
 import 'package:expense_tracker/screens/signup.dart';
+import 'package:expense_tracker/screens/tabs.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -27,6 +28,13 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'assets/images/trackitLogo.png',
+              width: 200,
+            ),
+            const SizedBox(
+              height: 50,
+            ),
             SizedBox(
               child: TextField(
                 controller: _emailController,
@@ -59,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (message!.contains('Success')) {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
+                        builder: (context) => const Tabs(),
                       ),
                     );
                   }

@@ -1,11 +1,12 @@
-import 'package:expense_tracker/auth_service.dart';
-import 'package:expense_tracker/screens/home.dart';
+import 'package:expense_tracker/fireStore_Services/auth_service.dart';
+import 'package:expense_tracker/screens/tabs.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+  const SignupScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SignupScreenState createState() => _SignupScreenState();
 }
 
@@ -25,6 +26,13 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'assets/images/trackitLogo.png',
+              width: 200,
+            ),
+            const SizedBox(
+              height: 50,
+            ),
             SizedBox(
               child: TextField(
                 controller: _userNameController,
@@ -65,8 +73,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     userName: _userNameController.text,
                   );
                   if (message!.contains('Success')) {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const HomeScreen()));
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const Tabs(),
+                      ),
+                    );
                   }
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
