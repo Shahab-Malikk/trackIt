@@ -1,6 +1,7 @@
 import 'package:expense_tracker/fireStore_Services/projects_service.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
+import 'package:expense_tracker/screens/project_type.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/utility_functions.dart';
@@ -27,11 +28,20 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   }
 
   void _openAddProjectOverlay() {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (ctx) => NewProject(
-        onAddProject: _addProject,
+    // showModalBottomSheet(
+    //   isScrollControlled: true,
+    //   context: context,
+    //   builder: (ctx) => NewProject(
+    //     onAddProject: _addProject,
+    //   ),
+    // );
+
+    //Push to Project Type Selection Screen
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => ProjectTypeSelectionScreen(
+          onAddProject: _addProject,
+        ),
       ),
     );
   }
