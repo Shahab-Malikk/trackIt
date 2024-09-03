@@ -84,7 +84,7 @@ class ProjectItem extends StatelessWidget {
                         width: 3,
                       ),
                       Text(
-                        project.initiatedBy,
+                        project.projectType,
                         style: const TextStyle(
                           fontSize: TSizes.fontSizeMd,
                           color: TColors.darkGrey,

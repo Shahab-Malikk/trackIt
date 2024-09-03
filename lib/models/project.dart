@@ -9,14 +9,14 @@ class Project {
   final String title;
   final DateTime date;
   final String description;
-  final String initiatedBy;
+  final String projectType;
 
   Project({
     required this.title,
     required this.date,
     required this.description,
-    required this.initiatedBy,
     required this.id,
+    this.projectType = 'project',
   });
 
   String get formattedDate {
@@ -25,11 +25,15 @@ class Project {
 
   factory Project.fromMap(Map<String, dynamic> data) {
     return Project(
-      id: data['id'],
-      title: data['title'] ?? '',
-      date: (data['date'] as Timestamp).toDate(),
-      description: data['description'] ?? '',
-      initiatedBy: data['initiatedBy'] ?? '',
-    );
+        id: data['id'],
+        title: data['title'] ??
+            '', // If the title is not present, default to an empty string
+        date: (data['date'] as Timestamp)
+            .toDate(), // Convert the Timestamp to a DateTime
+        description: data['description'] ??
+            '', // If the description is not present, default to an empty string
+        projectType: data['projectType'] ??
+            '' // If the projectType is not present, default to 'project'
+        );
   }
 }

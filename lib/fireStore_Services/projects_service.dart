@@ -20,7 +20,7 @@ class ProjectsService {
       'id': project.id,
       'title': project.title,
       'date': project.date,
-      'initiatedBy': project.initiatedBy,
+      'projectType': project.projectType,
       'description': project.description,
     });
   }

@@ -188,7 +188,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                       width: 3,
                     ),
                     Text(
-                      widget.project.initiatedBy,
+                      widget.project.projectType,
                       style: const TextStyle(
                         fontSize: TSizes.fontSizeMd,
                       ),

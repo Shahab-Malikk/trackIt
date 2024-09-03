@@ -14,12 +14,13 @@ class ProjectTypeSelectionScreen extends StatefulWidget {
 
 class _ProjectTypeSelectionScreenState
     extends State<ProjectTypeSelectionScreen> {
-  void _openAddProjectOverlay() {
+  void _openAddProjectOverlay(String projectType) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       builder: (ctx) => NewProject(
         onAddProject: widget.onAddProject,
+        projectType: projectType,
       ),
     );
   }
@@ -50,7 +51,9 @@ class _ProjectTypeSelectionScreenState
                   title: 'Personal',
                   description: 'Manage your personal expenses',
                   icon: Icons.person,
-                  onTap: _openAddProjectOverlay,
+                  onTap: () {
+                    _openAddProjectOverlay('Personal');
+                  },
                 ),
                 const SizedBox(
                   height: 30,
@@ -59,7 +62,9 @@ class _ProjectTypeSelectionScreenState
                   title: 'Collaborative',
                   description: 'Manage expenses with your friends',
                   icon: Icons.people,
-                  onTap: () {},
+                  onTap: () {
+                    _openAddProjectOverlay('Collaborative');
+                  },
                 ),
               ],
             ),
