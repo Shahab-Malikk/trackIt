@@ -79,7 +79,11 @@ class ProjectItem extends StatelessWidget {
                   const Spacer(),
                   Row(
                     children: [
-                      const Icon(Icons.person_2_outlined),
+                      Icon(
+                        project.projectType == 'Personal'
+                            ? Icons.person
+                            : Icons.people,
+                      ),
                       const SizedBox(
                         width: 3,
                       ),

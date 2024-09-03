@@ -1,3 +1,4 @@
+import 'package:expense_tracker/fireStore_Services/collaborated_project_service.dart';
 import 'package:expense_tracker/fireStore_Services/projects_service.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
@@ -52,8 +53,20 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
     });
 
     try {
-      await ProjectsService(fireStoreService)
-          .storeProjectInDb(project, widget.userId);
+      if (project.projectType == "Personal") {
+        await ProjectsService(fireStoreService).storeProjectInDb(
+          project,
+          widget.userId,
+        );
+      } else {
+        await CollaboratedProjectService(fireStoreService)
+            .storeCollaboratedProjectInDb(project);
+        await CollaboratedProjectService(fireStoreService).addCollaborator(
+          project.id,
+          widget.userId,
+        );
+      }
+
       if (context.mounted) {
         UtilityFunctions().showInfoMessage(
           "Project Added Successfuly.",
@@ -73,8 +86,12 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       final List<Project> projectsFromDb =
           await ProjectsService(fireStoreService).fetchProjects(widget.userId);
 
+      final List<Project> collaboratedProjectsFromDb =
+          await CollaboratedProjectService(fireStoreService)
+              .fetchCollaboratedProjects(widget.userId);
+
       setState(() {
-        projects = projectsFromDb;
+        projects = [...projectsFromDb, ...collaboratedProjectsFromDb];
       });
     } catch (e) {
       print(e);
