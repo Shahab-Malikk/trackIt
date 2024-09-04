@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_tracker/fireStore_Services/collaborated_project_service.dart';
 import 'package:expense_tracker/fireStore_Services/expenses_service.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
@@ -49,18 +50,41 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
       _registeredExpenses.add(expense);
     });
 
-    final financialData = Provider.of<FinancialData>(context, listen: false);
-    final totalExpenses = financialData.totalExpenses + expense.amount;
-    financialData.updateTotalExpenses(totalExpenses);
-    final balance = financialData.totalBalance - expense.amount;
-    financialData.updateTotalIncome(balance);
-    FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
-      'expenses': totalExpenses,
-      'balance': balance,
-    });
     try {
-      await ExpensesService(fireStoreService)
-          .storeExpenseOfProjectInDb(expense, widget.userId, widget.project.id);
+      if (widget.project.projectType == "Personal") {
+        final financialData =
+            Provider.of<FinancialData>(context, listen: false);
+        final totalExpenses = financialData.totalExpenses + expense.amount;
+        financialData.updateTotalExpenses(totalExpenses);
+        final balance = financialData.totalBalance - expense.amount;
+        financialData.updateTotalIncome(balance);
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(widget.userId)
+            .update({
+          'expenses': totalExpenses,
+          'balance': balance,
+        });
+        await ExpensesService(fireStoreService).storeExpenseOfProjectInDb(
+            expense, widget.userId, widget.project.id);
+      } else {
+        List<String> collaborators =
+            await CollaboratedProjectService(fireStoreService)
+                .fetchCollaboratorsIds(widget.project.id);
+        final amountPerCollaborator = expense.amount / (collaborators.length);
+        print("Amount Per Collaborator: ");
+        print(amountPerCollaborator);
+        await CollaboratedProjectService(fireStoreService)
+            .updateBalanceAndExpenseOfCollaborators(
+          collaborators,
+          amountPerCollaborator,
+        );
+        await CollaboratedProjectService(fireStoreService)
+            .storeExpenseOfCollaboratedProjectInDb(
+          widget.project.id,
+          expense,
+        );
+      }
       if (context.mounted) {
         UtilityFunctions().showInfoMessage(
           "Expense Added Sucessfuly.",
@@ -73,8 +97,20 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   }
 
   void _fetchAndStoreExpenses() async {
-    final List<Expense> expenses = await ExpensesService(fireStoreService)
-        .fetchExpensesOfCurrentProject(widget.userId, widget.project.id);
+    List<Expense> expenses = [];
+    if (widget.project.projectType == "Personal") {
+      expenses = await ExpensesService(fireStoreService)
+          .fetchExpensesOfCurrentProject(widget.userId, widget.project.id);
+    } else {
+      List<String> collaborators =
+          await CollaboratedProjectService(fireStoreService)
+              .fetchCollaboratorsIds(widget.project.id);
+      print("Collaborators: ");
+      print(collaborators);
+      expenses = await CollaboratedProjectService(fireStoreService)
+          .fetchExpensesOfCollaboratedProject(widget.project.id);
+    }
+
     setState(() {
       _registeredExpenses = expenses;
     });
@@ -183,7 +219,9 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                 const Spacer(),
                 Row(
                   children: [
-                    const Icon(Icons.person_2_outlined),
+                    Icon(widget.project.projectType == "Personal"
+                        ? Icons.person
+                        : Icons.people),
                     const SizedBox(
                       width: 3,
                     ),

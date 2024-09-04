@@ -73,7 +73,7 @@ class ExpenseItem extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      const Icon(Icons.category_rounded),
+                      const Icon(Icons.subdirectory_arrow_right_outlined),
                       const SizedBox(
                         width: 8,
                       ),
