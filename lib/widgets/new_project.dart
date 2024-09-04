@@ -90,6 +90,7 @@ class _NewProjectState extends State<NewProject> {
 
     widget.onAddProject(project);
     Navigator.pop(context);
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 
   @override

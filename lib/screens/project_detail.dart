@@ -72,8 +72,6 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             await CollaboratedProjectService(fireStoreService)
                 .fetchCollaboratorsIds(widget.project.id);
         final amountPerCollaborator = expense.amount / (collaborators.length);
-        print("Amount Per Collaborator: ");
-        print(amountPerCollaborator);
         await CollaboratedProjectService(fireStoreService)
             .updateBalanceAndExpenseOfCollaborators(
                 collaborators, amountPerCollaborator, "AddExpense");
@@ -138,8 +136,6 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             await CollaboratedProjectService(fireStoreService)
                 .fetchCollaboratorsIds(widget.project.id);
         final amountPerCollaborator = expense.amount / (collaborators.length);
-        print("Amount Per Collaborator: ");
-        print(amountPerCollaborator);
         await CollaboratedProjectService(fireStoreService)
             .updateBalanceAndExpenseOfCollaborators(
                 collaborators, amountPerCollaborator, "RemoveExpense");

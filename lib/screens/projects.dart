@@ -81,22 +81,13 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   }
 
   void _fetchProjectsFromDb() async {
-    print("Calling fetchProjectsFromDb");
     try {
-      print("Calling fetchProjectsFromDb");
-
       List<Project> projectsFromDb =
           await ProjectsService(fireStoreService).fetchProjects(widget.userId);
-
-      print("Calling fetchProjectsFromDb");
 
       final List<Project> collaboratedProjectsFromDb =
           await CollaboratedProjectService(fireStoreService)
               .fetchCollaboratedProjects(widget.userId);
-
-      print("Calling fetchProjectsFromDb");
-
-      print(widget.userId);
       setState(() {
         projects = [...projectsFromDb, ...collaboratedProjectsFromDb];
       });
