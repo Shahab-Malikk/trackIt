@@ -16,6 +16,7 @@ class Expense {
   final String paidBy;
 
   Expense({
+    required this.id,
     required this.title,
     required this.amount,
     required this.date,
@@ -23,10 +24,11 @@ class Expense {
     required this.subCategory,
     required this.description,
     required this.paidBy,
-  }) : id = uuid.v4();
+  });
 
   factory Expense.fromMap(Map<String, dynamic> data) {
     return Expense(
+      id: data['id'],
       title: data['title'] ??
           '', // If the title is not present, default to an empty string
       amount: data['amount']?.toDouble() ??

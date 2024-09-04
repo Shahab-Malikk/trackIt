@@ -76,9 +76,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
         print(amountPerCollaborator);
         await CollaboratedProjectService(fireStoreService)
             .updateBalanceAndExpenseOfCollaborators(
-          collaborators,
-          amountPerCollaborator,
-        );
+                collaborators, amountPerCollaborator, "AddExpense");
         await CollaboratedProjectService(fireStoreService)
             .storeExpenseOfCollaboratedProjectInDb(
           widget.project.id,
@@ -117,21 +115,38 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   }
 
   void _removeExpense(Expense expense) async {
-    final financialData = Provider.of<FinancialData>(context, listen: false);
-    final totalExpenses = financialData.totalExpenses - expense.amount;
-    financialData.updateTotalExpenses(totalExpenses);
-    final balance = financialData.totalBalance + expense.amount;
-    financialData.updateTotalIncome(balance);
-    FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
-      'expenses': totalExpenses,
-      'balance': balance,
-    });
-    setState(() {
-      _registeredExpenses.remove(expense);
-    });
     try {
-      await ExpensesService(fireStoreService)
-          .deleteExpenseOfProject(widget.userId, widget.project.id, expense.id);
+      if (widget.project.projectType == "Personal") {
+        final financialData =
+            Provider.of<FinancialData>(context, listen: false);
+        final totalExpenses = financialData.totalExpenses - expense.amount;
+        financialData.updateTotalExpenses(totalExpenses);
+        final balance = financialData.totalBalance + expense.amount;
+        financialData.updateTotalIncome(balance);
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(widget.userId)
+            .update({
+          'expenses': totalExpenses,
+          'balance': balance,
+        });
+
+        await ExpensesService(fireStoreService).deleteExpenseOfProject(
+            widget.userId, widget.project.id, expense.id);
+      } else {
+        List<String> collaborators =
+            await CollaboratedProjectService(fireStoreService)
+                .fetchCollaboratorsIds(widget.project.id);
+        final amountPerCollaborator = expense.amount / (collaborators.length);
+        print("Amount Per Collaborator: ");
+        print(amountPerCollaborator);
+        await CollaboratedProjectService(fireStoreService)
+            .updateBalanceAndExpenseOfCollaborators(
+                collaborators, amountPerCollaborator, "RemoveExpense");
+        await CollaboratedProjectService(fireStoreService)
+            .deleteExpenseOfCollaboratedProject(widget.project.id, expense.id);
+      }
+
       if (context.mounted) {
         UtilityFunctions().showInfoMessage(
           "Expense Deleted Sucessfuly.",
@@ -141,6 +156,10 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     } catch (e) {
       UtilityFunctions().showInfoMessage("An error occured.", context);
     }
+
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
   }
 
   @override

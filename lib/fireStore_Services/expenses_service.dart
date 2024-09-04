@@ -53,6 +53,7 @@ class ExpensesService {
 
   Future<void> deleteExpenseOfProject(
       String userId, String projectId, String expenseId) {
+    print(expenseId);
     CollectionReference expenseCollection = _usersCollection
         .doc(userId)
         .collection('projects')

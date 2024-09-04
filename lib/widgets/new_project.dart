@@ -29,7 +29,6 @@ class _NewProjectState extends State<NewProject> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   DateTime? _selectedDate;
-  String? _paidBy;
 
   @override
   void initState() {

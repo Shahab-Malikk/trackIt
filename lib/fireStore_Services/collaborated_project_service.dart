@@ -86,6 +86,19 @@ class CollaboratedProjectService {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
+  //Remove Expense of Collaborated Project
+
+  Future<void> deleteExpenseOfCollaboratedProject(
+      String projectId, String expenseId) async {
+    CollectionReference expenseCollection =
+        _collaboratedProjectsCollection.doc(projectId).collection("expenses");
+    return expenseCollection.doc(expenseId).delete().then((value) {
+      print("Expense Deleted");
+    }).catchError((error) {
+      print("Failed to delete user: $error");
+    });
+  }
+
   // Fetch Expenses of Collaborated Project
 
   Future<List<Expense>> fetchExpensesOfCollaboratedProject(
@@ -101,7 +114,7 @@ class CollaboratedProjectService {
 
 // Update Balance and Expenses of Collaborators
   Future<void> updateBalanceAndExpenseOfCollaborators(
-      List<String> collaboratorsIds, double amount) async {
+      List<String> collaboratorsIds, double amount, String action) async {
     for (String userId in collaboratorsIds) {
       DocumentReference userDoc =
           _firestoreServices.db.collection('users').doc(userId);
@@ -115,8 +128,13 @@ class CollaboratedProjectService {
         double balance = userData['balance'];
         double expenses = userData['expenses'];
 
-        balance = balance - amount;
-        expenses = expenses + amount;
+        if (action == "AddExpense") {
+          balance = balance - amount;
+          expenses = expenses + amount;
+        } else {
+          balance = balance + amount;
+          expenses = expenses - amount;
+        }
 
         await userDoc.update({
           'balance': balance,
