@@ -11,6 +11,7 @@ class TBottomNavigationBarTheme {
     elevation: 0,
     selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
     unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400),
+    type: BottomNavigationBarType.fixed,
   );
 
   static final darkBottomNavBarTheme = BottomNavigationBarThemeData(

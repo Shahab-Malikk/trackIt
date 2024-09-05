@@ -29,6 +29,7 @@ class App extends StatelessWidget {
     ScreenUtil.init(context);
     return MaterialApp(
       theme: TAppTheme.lightTheme,
+      debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
     );
   }

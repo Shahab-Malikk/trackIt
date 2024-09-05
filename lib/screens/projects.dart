@@ -1,10 +1,11 @@
+import 'package:expense_tracker/fireStore_Services/collaborated_project_service.dart';
 import 'package:expense_tracker/fireStore_Services/projects_service.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
+import 'package:expense_tracker/screens/project_type.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/utility_functions.dart';
-import 'package:expense_tracker/widgets/new_project.dart';
 import 'package:expense_tracker/widgets/projects_list.dart';
 import 'package:flutter/material.dart';
 
@@ -27,11 +28,20 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   }
 
   void _openAddProjectOverlay() {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (ctx) => NewProject(
-        onAddProject: _addProject,
+    // showModalBottomSheet(
+    //   isScrollControlled: true,
+    //   context: context,
+    //   builder: (ctx) => NewProject(
+    //     onAddProject: _addProject,
+    //   ),
+    // );
+
+    //Push to Project Type Selection Screen
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => ProjectTypeSelectionScreen(
+          onAddProject: _addProject,
+        ),
       ),
     );
   }
@@ -42,8 +52,20 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
     });
 
     try {
-      await ProjectsService(fireStoreService)
-          .storeProjectInDb(project, widget.userId);
+      if (project.projectType == "Personal") {
+        await ProjectsService(fireStoreService).storeProjectInDb(
+          project,
+          widget.userId,
+        );
+      } else {
+        await CollaboratedProjectService(fireStoreService)
+            .storeCollaboratedProjectInDb(project);
+        await CollaboratedProjectService(fireStoreService).addCollaborator(
+          project.id,
+          widget.userId,
+        );
+      }
+
       if (context.mounted) {
         UtilityFunctions().showInfoMessage(
           "Project Added Successfuly.",
@@ -60,15 +82,25 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
 
   void _fetchProjectsFromDb() async {
     try {
-      final List<Project> projectsFromDb =
+      List<Project> projectsFromDb =
           await ProjectsService(fireStoreService).fetchProjects(widget.userId);
 
-      setState(() {
-        projects = projectsFromDb;
-      });
+      final List<Project> collaboratedProjectsFromDb =
+          await CollaboratedProjectService(fireStoreService)
+              .fetchCollaboratedProjects(widget.userId);
+      if (context.mounted) {
+        setState(() {
+          projects = [...projectsFromDb, ...collaboratedProjectsFromDb];
+        });
+      }
     } catch (e) {
       print(e);
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

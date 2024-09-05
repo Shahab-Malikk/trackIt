@@ -11,8 +11,13 @@ const uuid = Uuid();
 
 class NewProject extends StatefulWidget {
   final void Function(Project project) onAddProject;
+  final String projectType;
 
-  const NewProject({super.key, required this.onAddProject});
+  const NewProject({
+    super.key,
+    required this.onAddProject,
+    required this.projectType,
+  });
 
   @override
   State<NewProject> createState() => _NewProjectState();
@@ -24,7 +29,6 @@ class _NewProjectState extends State<NewProject> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   DateTime? _selectedDate;
-  String? _paidBy;
 
   @override
   void initState() {
@@ -81,11 +85,19 @@ class _NewProjectState extends State<NewProject> {
       title: _titleController.text,
       date: _selectedDate!,
       description: _descriptionController.text,
-      initiatedBy: _paidBy!,
+      projectType: widget.projectType,
     );
 
     widget.onAddProject(project);
     Navigator.pop(context);
+    Navigator.popUntil(context, (route) => route.isFirst);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
   }
 
   @override
@@ -94,6 +106,17 @@ class _NewProjectState extends State<NewProject> {
       padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
       child: Column(
         children: [
+          Text(
+            'Create ${widget.projectType} Project',
+            style: const TextStyle(
+              fontSize: TSizes.fontSizeLg,
+              color: TColors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
           TextField(
             controller: _titleController,
             maxLength: 50,
@@ -103,31 +126,31 @@ class _NewProjectState extends State<NewProject> {
           ),
           Row(
             children: [
-              Expanded(
-                child: DropdownButton<String>(
-                  hint: const Text('Intiated By'),
-                  value: _paidBy,
-                  items: contributors.map((person) {
-                    return DropdownMenuItem<String>(
-                      value: person,
-                      child: Text(person),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _paidBy = value;
-                      });
-                    }
-                  },
-                ),
-              ),
+              // Expanded(
+              //   child: DropdownButton<String>(
+              //     hint: const Text('Intiated By'),
+              //     value: _paidBy,
+              //     items: contributors.map((person) {
+              //       return DropdownMenuItem<String>(
+              //         value: person,
+              //         child: Text(person),
+              //       );
+              //     }).toList(),
+              //     onChanged: (value) {
+              //       if (value != null) {
+              //         setState(() {
+              //           _paidBy = value;
+              //         });
+              //       }
+              //     },
+              //   ),
+              // ),
               const SizedBox(
                 width: 12,
               ),
               Expanded(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(_selectedDate == null

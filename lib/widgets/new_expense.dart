@@ -33,7 +33,7 @@ class _NewExpenseState extends State<NewExpense> {
   String? _selectedCategory; // Initialize with an empty string for now
   String? _selectedCategoryId;
   String? _slectedSubCategory;
-  String? _paidBy;
+  String? _paidTo;
 
   @override
   void initState() {
@@ -117,13 +117,14 @@ class _NewExpenseState extends State<NewExpense> {
       return;
     }
     final expense = Expense(
+      id: uuid.v4(),
       title: _titleController.text,
       amount: enteredAmount,
       date: _selectedDate!,
       category: _selectedCategory!,
       subCategory: _slectedSubCategory!,
       description: _descriptionController.text,
-      paidBy: _paidBy!,
+      paidBy: _paidTo!,
     );
 
     widget.onAddExpense(expense);
@@ -227,7 +228,7 @@ class _NewExpenseState extends State<NewExpense> {
             children: [
               DropdownButton<String>(
                 hint: const Text('Paid To'),
-                value: _paidBy,
+                value: _paidTo,
                 items: contributors.map((person) {
                   return DropdownMenuItem<String>(
                     value: person,
@@ -237,7 +238,7 @@ class _NewExpenseState extends State<NewExpense> {
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
-                      _paidBy = value;
+                      _paidTo = value;
                     });
                   }
                 },

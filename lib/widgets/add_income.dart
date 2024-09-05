@@ -103,6 +103,14 @@ class _AddIncomeState extends State<AddIncome> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _incomeController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
