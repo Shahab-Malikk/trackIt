@@ -50,6 +50,30 @@ class CollaboratedProjectService {
     }
   }
 
+  Future<List<String>> fetchCollaboratorsNames(
+      String projectId, String currentUserId) async {
+    List<String> collaboratorsIds = await fetchCollaboratorsIds(projectId);
+    List<String> collaboratorsNames = [];
+    CollectionReference usersCollection =
+        _firestoreServices.db.collection('users');
+    for (String userId in collaboratorsIds) {
+      DocumentSnapshot userDoc = await usersCollection.doc(userId).get();
+      Map<String, dynamic>? userData = userDoc.data() as Map<String, dynamic>?;
+
+      if (userData != null) {
+        if (userId != currentUserId) {
+          String username = userData['userName'];
+          username = username.split(" ")[0];
+          collaboratorsNames.add(username);
+        } else {
+          collaboratorsNames.add("You");
+        }
+      }
+    }
+
+    return collaboratorsNames;
+  }
+
 //Fetch Collaborated Projects
   Future<List<Project>> fetchCollaboratedProjects(String userId) async {
     QuerySnapshot querySnapshot = await _collaboratedProjectsCollection

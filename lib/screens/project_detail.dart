@@ -8,6 +8,7 @@ import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/utility_functions.dart';
+import 'package:expense_tracker/widgets/collaborator_item.dart';
 import 'package:expense_tracker/widgets/expenses.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class ProjectDetailScreen extends StatefulWidget {
 
 class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   List<Expense> _registeredExpenses = [];
+  List<String> collaborators = [];
 
   @override
   void initState() {
@@ -98,11 +100,9 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
       expenses = await ExpensesService(fireStoreService)
           .fetchExpensesOfCurrentProject(widget.userId, widget.project.id);
     } else {
-      List<String> collaborators =
-          await CollaboratedProjectService(fireStoreService)
-              .fetchCollaboratorsIds(widget.project.id);
-      print("Collaborators: ");
-      print(collaborators);
+      collaborators = await CollaboratedProjectService(fireStoreService)
+          .fetchCollaboratorsNames(widget.project.id, widget.userId);
+
       expenses = await CollaboratedProjectService(fireStoreService)
           .fetchExpensesOfCollaboratedProject(widget.project.id);
     }
@@ -252,6 +252,24 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             ),
             const SizedBox(
               height: 30,
+            ),
+            const Text(
+              "Collaborators",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                for (var i = 0; i < collaborators.length; i++)
+                  CollaboratorItem(
+                    collaboratorName: collaborators[i],
+                  ),
+              ],
             ),
             const Text(
               "Expenses List",

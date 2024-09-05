@@ -88,12 +88,19 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       final List<Project> collaboratedProjectsFromDb =
           await CollaboratedProjectService(fireStoreService)
               .fetchCollaboratedProjects(widget.userId);
-      setState(() {
-        projects = [...projectsFromDb, ...collaboratedProjectsFromDb];
-      });
+      if (context.mounted) {
+        setState(() {
+          projects = [...projectsFromDb, ...collaboratedProjectsFromDb];
+        });
+      }
     } catch (e) {
       print(e);
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

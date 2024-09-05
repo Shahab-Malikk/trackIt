@@ -94,7 +94,7 @@ class _TabsState extends State<Tabs> {
       appBar: AppBar(
         title: Text(activePageTitle),
       ),
-      body: activePage,
+      body: RefreshIndicator(onRefresh: fetchCurrentUser, child: activePage),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPageIndex,
         onTap: (index) {
