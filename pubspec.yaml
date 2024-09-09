@@ -45,6 +45,8 @@ dependencies:
   flutter_onboarding_slider: ^1.0.11
   flutter_launcher_icons: ^0.13.1
   shared_preferences: ^2.3.2
+  firebase_storage: ^12.2.0
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +76,8 @@ flutter:
     - assets/images/illustration1.png
     - assets/images/illustration2.png
     - assets/images/illustration3.png
+    - formsData/income_form.json
+    - formsData/expense_form.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

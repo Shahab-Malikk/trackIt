@@ -6,6 +6,7 @@ import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/widgets/add_income.dart';
 import 'package:expense_tracker/widgets/income_records.dart';
+import 'package:expense_tracker/widgets/new_project_dynmaic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -49,10 +50,12 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (ctx) => AddIncome(
-        onAddIncome: _addIncome,
-        userId: widget.userId,
-      ),
+      builder: (ctx) => NewDynamicForm(),
+
+      // AddIncome(
+      //   onAddIncome: _addIncome,
+      //   userId: widget.userId,
+      // ),
     );
   }
 

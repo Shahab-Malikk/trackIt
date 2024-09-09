@@ -1,0 +1,24 @@
+[
+    {
+        "id": "income",
+        "label": "Income",
+        "type": "number",
+        "placeholder": "Enter Income",
+        "value": ""
+    },
+    {
+        "id": "description",
+        "label": "Description",
+        "type": "text",
+        "placeholder": "Enter Description",
+        "value": ""
+    },
+    
+    {
+        "id": "date",
+        "label": "Date",
+        "type": "date",
+        "placeholder": "Enter Date",
+        "value": ""
+    }
+]
