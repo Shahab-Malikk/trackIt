@@ -78,6 +78,7 @@ flutter:
     - assets/images/illustration3.png
     - formsData/income_form.json
     - formsData/expense_form.json
+    - formsData/auth_form.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

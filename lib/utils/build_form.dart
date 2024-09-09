@@ -35,7 +35,29 @@ Widget buildFormField(
           onChanged: (value) => onValueChanged(field['id'], value),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter some text';
+              if (field['id'] == 'email') {
+                return 'Please enter a valid email';
+              } else {
+                return 'Please enter a valid text';
+              }
+            }
+            return null;
+          },
+        ),
+      );
+    case 'password':
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: TextFormField(
+          decoration: InputDecoration(
+            labelText: field['label'],
+            hintText: field['placeholder'],
+          ),
+          obscureText: true, // Explicitly set for password fields
+          onChanged: (value) => onValueChanged(field['id'], value),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter a password';
             }
             return null;
           },
