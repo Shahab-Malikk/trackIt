@@ -1,3 +1,4 @@
+import 'package:expense_tracker/utils/validate_inputs.dart';
 import 'package:flutter/material.dart';
 
 Widget buildFormField(
@@ -33,16 +34,11 @@ Widget buildFormField(
             hintText: field['placeholder'],
           ),
           onChanged: (value) => onValueChanged(field['id'], value),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              if (field['id'] == 'email') {
-                return 'Please enter a valid email';
-              } else {
-                return 'Please enter a valid text';
-              }
-            }
-            return null;
-          },
+          keyboardType: field['type'] == 'email'
+              ? TextInputType.emailAddress
+              : TextInputType.text,
+          validator: (value) =>
+              validateField(field['id'], value, field['validator']),
         ),
       );
     case 'password':
@@ -55,12 +51,8 @@ Widget buildFormField(
           ),
           obscureText: true, // Explicitly set for password fields
           onChanged: (value) => onValueChanged(field['id'], value),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter a password';
-            }
-            return null;
-          },
+          validator: (value) =>
+              validateField(field['id'], value, field['validator']),
         ),
       );
     case 'date':

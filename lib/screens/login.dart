@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:expense_tracker/fireStore_Services/auth_service.dart';
 import 'package:expense_tracker/screens/signup.dart';
 import 'package:expense_tracker/screens/tabs.dart';
