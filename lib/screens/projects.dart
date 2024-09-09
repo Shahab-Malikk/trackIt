@@ -19,6 +19,7 @@ class ProjectsScreen extends StatefulWidget {
 
 class _ProjectsScreenState extends State<ProjectsScreen> {
   List<Project> projects = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -91,6 +92,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       if (context.mounted) {
         setState(() {
           projects = [...projectsFromDb, ...collaboratedProjectsFromDb];
+          _isLoading = false;
         });
       }
     } catch (e) {
@@ -135,28 +137,32 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Add Your projects here.",
-              style: TextStyle(
-                fontSize: TSizes.fontSizeMd,
-                color: TColors.black,
+        child: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Add Your projects here.",
+                    style: TextStyle(
+                      fontSize: TSizes.fontSizeMd,
+                      color: TColors.black,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(
+                    child: ProjectsList(
+                      projects: projects,
+                      userId: widget.userId,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: ProjectsList(
-                projects: projects,
-                userId: widget.userId,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

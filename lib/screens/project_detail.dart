@@ -27,11 +27,13 @@ class ProjectDetailScreen extends StatefulWidget {
 class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   List<Expense> _registeredExpenses = [];
   List<String> collaborators = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     _fetchAndStoreExpenses();
   }
 
@@ -109,6 +111,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
 
     setState(() {
       _registeredExpenses = expenses;
+      _isLoading = false;
     });
   }
 
@@ -193,102 +196,109 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              widget.project.title,
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              widget.project.description,
-              style: const TextStyle(
-                fontSize: TSizes.fontSizeMd,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.calendar_month_outlined),
-                    const SizedBox(
-                      width: 3,
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.project.title,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
                     ),
-                    Text(
-                      widget.project.formattedDate,
-                      style: const TextStyle(
-                        fontSize: TSizes.fontSizeMd,
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                Row(
-                  children: [
-                    Icon(widget.project.projectType == "Personal"
-                        ? Icons.person
-                        : Icons.people),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      widget.project.projectType,
-                      style: const TextStyle(
-                        fontSize: TSizes.fontSizeMd,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            const Text(
-              "Collaborators",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                for (var i = 0; i < collaborators.length; i++)
-                  CollaboratorItem(
-                    collaboratorName: collaborators[i],
                   ),
-              ],
-            ),
-            const Text(
-              "Expenses List",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    widget.project.description,
+                    style: const TextStyle(
+                      fontSize: TSizes.fontSizeMd,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.calendar_month_outlined),
+                          const SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            widget.project.formattedDate,
+                            style: const TextStyle(
+                              fontSize: TSizes.fontSizeMd,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Icon(widget.project.projectType == "Personal"
+                              ? Icons.person
+                              : Icons.people),
+                          const SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            widget.project.projectType,
+                            style: const TextStyle(
+                              fontSize: TSizes.fontSizeMd,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  if (collaborators.isNotEmpty)
+                    Column(
+                      children: [
+                        const Text(
+                          "Collaborators",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            for (var i = 0; i < collaborators.length; i++)
+                              CollaboratorItem(
+                                collaboratorName: collaborators[i],
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  const Text(
+                    "Expenses List",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Expanded(
+                    child: Expenses(
+                      expenses: _registeredExpenses,
+                      onRemoveItem: _removeExpense,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Expanded(
-              child: Expenses(
-                expenses: _registeredExpenses,
-                onRemoveItem: _removeExpense,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
