@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class NewDynamicForm extends StatefulWidget {
+  const NewDynamicForm({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _NewDynamicFormState createState() => _NewDynamicFormState();
 }
 
@@ -80,7 +83,7 @@ class _NewDynamicFormState extends State<NewDynamicForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Form(
         key: _formKey,
         child: Column(
@@ -99,13 +102,13 @@ class _NewDynamicFormState extends State<NewDynamicForm> {
                 );
               }
             }).toList(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
                     onPressed: _submitForm,
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ),
               ],

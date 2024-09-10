@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_tracker/fireStore_Services/collaborated_project_service.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
 
@@ -27,6 +28,7 @@ class ProjectsService {
 
 //Fetch Recent Projects
   Future<List<Project>> fetchRecentProjects(String userId) async {
+    // Fetch Individual Projects
     CollectionReference projectsCollection =
         _usersCollection.doc(userId).collection("projects");
     QuerySnapshot querySnapshot = await projectsCollection
@@ -34,9 +36,37 @@ class ProjectsService {
         .limit(3)
         .get();
 
-    return querySnapshot.docs
-        .map((doc) => Project.fromMap(doc.data() as Map<String, dynamic>))
-        .toList();
+    List<Project> individualProjects = querySnapshot.docs.map((doc) {
+      return Project.fromMap(doc.data() as Map<String, dynamic>);
+    }).toList();
+
+    // Fetch Collaborated Projects
+    CollectionReference collaboratedProjectsCollection =
+        _fireStoreServices.db.collection('collaboratedProjects');
+
+    QuerySnapshot querySnapshotCollaboratedProjects =
+        await collaboratedProjectsCollection
+            .where('collaborators', arrayContains: userId)
+            .orderBy('date', descending: true)
+            .limit(3)
+            .get();
+
+    List<Project> collaboratedProjects =
+        querySnapshotCollaboratedProjects.docs.map((doc) {
+      return Project.fromMap(doc.data() as Map<String, dynamic>);
+    }).toList();
+
+    // return querySnapshot.docs
+    //     .map((doc) => Project.fromMap(doc.data() as Map<String, dynamic>))
+    //     .toList();
+
+//Merging projects to get top 3 recent projects
+    List<Project> allProjects = [
+      ...individualProjects,
+      ...collaboratedProjects
+    ];
+    allProjects.sort((a, b) => b.date.compareTo(a.date));
+    return allProjects.take(3).toList();
   }
 
 //Fetch all  Projects
