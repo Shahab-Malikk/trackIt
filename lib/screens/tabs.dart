@@ -46,8 +46,8 @@ class _TabsState extends State<Tabs> {
             final financialData =
                 Provider.of<FinancialData>(context, listen: false);
 
-            financialData.updateTotalIncome(userData?['balance']);
-            financialData.updateTotalExpenses(userData?['expenses']);
+            financialData.updateTotalIncome(userData?['balance'].toDouble());
+            financialData.updateTotalExpenses(userData?['expenses'].toDouble());
           });
         } else {
           print('No data found for user with UID: $uid');

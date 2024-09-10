@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expense_tracker/fireStore_Services/collaborated_project_service.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
 
@@ -66,6 +65,8 @@ class ProjectsService {
       ...collaboratedProjects
     ];
     allProjects.sort((a, b) => b.date.compareTo(a.date));
+
+    //Get top 3 recent projects from all projects
     return allProjects.take(3).toList();
   }
 
