@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/fireStore_Services/category_service.dart';
 import 'package:expense_tracker/fireStore_Services/form_service.dart';
-import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/income.dart';
@@ -27,12 +26,12 @@ class _AddIncomeState extends State<AddIncome> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _formValues = {};
   List<dynamic> _formFields = [];
-  List<String> contributors = [];
+  // List<String> contributors = [];
 
   void initState() {
     // TODO: implement initState
     super.initState();
-    _fetchContributors();
+    // _fetchContributors();
     _loadFormDataFromRealtimeDatabase();
   }
 
@@ -45,10 +44,11 @@ class _AddIncomeState extends State<AddIncome> {
   }
 
   void _fetchContributors() async {
+    // ignore: unused_local_variable
     final List<String> contributorsFromDb =
         await CategoryService(fireStoreService).getSenders();
     setState(() {
-      contributors = contributorsFromDb;
+      // contributors = contributorsFromDb;
     });
   }
 
