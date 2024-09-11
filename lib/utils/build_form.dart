@@ -65,8 +65,12 @@ Widget buildFormField(
             FocusScope.of(context).requestFocus(FocusNode());
             final pickedDate = await showDatePicker(
               context: context,
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
+              firstDate: DateTime(
+                DateTime.now().year - 1,
+                DateTime.now().month,
+                DateTime.now().day,
+              ),
+              lastDate: DateTime.now(),
               initialDate: DateTime.now(),
             );
             if (pickedDate != null) {
