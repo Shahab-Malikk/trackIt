@@ -7,6 +7,7 @@ import 'package:expense_tracker/models/income.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/build_form.dart';
+import 'package:expense_tracker/widgets/load_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -27,6 +28,7 @@ class _AddIncomeState extends State<AddIncome> {
   final Map<String, dynamic> _formValues = {};
   List<dynamic> _formFields = [];
   // List<String> contributors = [];
+  bool _isLoading = true;
 
   void initState() {
     // TODO: implement initState
@@ -40,6 +42,7 @@ class _AddIncomeState extends State<AddIncome> {
     List<dynamic> formData = await formService.fetchFormData();
     setState(() {
       _formFields = formData;
+      _isLoading = false;
     });
   }
 
@@ -100,44 +103,46 @@ class _AddIncomeState extends State<AddIncome> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            ..._formFields.map((field) {
-              return buildFormField(
-                  context, field, _formValues, _handleValueChanged);
-            }).toList(),
-            const SizedBox(
-              height: 24,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancel',
-                        style: TextStyle(
-                          fontSize: TSizes.fontSizeLg,
-                          color: TColors.black,
-                        ))),
-                SizedBox(
-                  width: 150,
-                  height: 60,
-                  child: ElevatedButton(
-                    onPressed: _addBalance,
-                    child: const Text('Save Data'),
+    return _isLoading
+        ? const LoadIndicator()
+        : Padding(
+            padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  ..._formFields.map((field) {
+                    return buildFormField(
+                        context, field, _formValues, _handleValueChanged);
+                  }).toList(),
+                  const SizedBox(
+                    height: 24,
                   ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel',
+                              style: TextStyle(
+                                fontSize: TSizes.fontSizeLg,
+                                color: TColors.black,
+                              ))),
+                      SizedBox(
+                        width: 150,
+                        height: 60,
+                        child: ElevatedButton(
+                          onPressed: _addBalance,
+                          child: const Text('Save Data'),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
   }
 }

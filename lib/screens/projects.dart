@@ -6,6 +6,7 @@ import 'package:expense_tracker/screens/project_type.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/utility_functions.dart';
+import 'package:expense_tracker/widgets/load_indicator.dart';
 import 'package:expense_tracker/widgets/projects_list.dart';
 import 'package:flutter/material.dart';
 
@@ -135,13 +136,11 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Column(
+      body: _isLoading
+          ? const LoadIndicator()
+          : Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -163,7 +162,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   ),
                 ],
               ),
-      ),
+            ),
     );
   }
 }
