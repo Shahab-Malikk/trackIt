@@ -17,12 +17,8 @@ Widget buildFormField(
           ),
           keyboardType: TextInputType.number,
           onChanged: (value) => onValueChanged(field['id'], value),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter a valid number';
-            }
-            return null;
-          },
+          validator: (value) =>
+              validateField(field['id'], value, field['validator']),
         ),
       );
     case 'text':
@@ -60,6 +56,7 @@ Widget buildFormField(
         padding: const EdgeInsets.only(bottom: 16.0),
         child: TextFormField(
           decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.calendar_today),
             labelText: field['label'],
             hintText: field['placeholder'],
           ),
@@ -77,7 +74,12 @@ Widget buildFormField(
                   field['id'], pickedDate.toLocal().toString().split(' ')[0]);
             }
           },
+          controller: TextEditingController(
+            text: formValues[field['id']] ?? '',
+          ),
           readOnly: true,
+          validator: (value) =>
+              validateField(field['id'], value, field['validator']),
         ),
       );
 

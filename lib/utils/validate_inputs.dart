@@ -16,6 +16,13 @@ String? validateField(String id, String? value, String? validator) {
         return 'Minimum length is $minLength';
       }
     }
+
+    if (rule.startsWith('min:')) {
+      final min = int.parse(rule.split(':')[1]);
+      if (value == null || int.parse(value) < min) {
+        return 'Minimum value is $min';
+      }
+    }
   }
   return null;
 }

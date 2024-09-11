@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:expense_tracker/fireStore_Services/form_service.dart';
 import 'package:expense_tracker/fireStore_Services/formdata_provider.dart';
 import 'package:expense_tracker/utils/build_form.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +30,23 @@ class _NewDynamicFormState extends State<NewDynamicForm> {
     // _loadFormData();
 
     _loadFormFields();
+    _loadFormDataFromRealtimeDatabase();
   }
 
   Future<void> _loadFormFields() async {
     final jsonString =
         await rootBundle.loadString('formsData/expense_form.json');
     final List<dynamic> formData = json.decode(jsonString);
+    print(formData);
+
+    // setState(() {
+    //   _formFields = formData;
+    // });
+  }
+
+  Future<void> _loadFormDataFromRealtimeDatabase() async {
+    FormService formService = FormService();
+    List<dynamic> formData = await formService.fetchFormData();
     setState(() {
       _formFields = formData;
     });

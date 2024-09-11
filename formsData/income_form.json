@@ -4,7 +4,32 @@
         "label": "Income",
         "type": "number",
         "placeholder": "Enter Income",
-        "value": ""
+        "value": "",
+        "validator":"required,min:1"
+    },
+    {
+        "id": "date",
+        "label": "Date",
+        "type": "date",
+        "placeholder": "Enter Date",
+        "value": "",
+        "validator":"required"
+    },
+    {
+        "id":"paidBy",
+        "label":"Paid By",
+        "type":"dropdown",
+        "placeholder":"Select Person",
+        "value":"",
+        "options":[
+            "Imran",
+            "Ali",
+            "Ahmed",
+            "Sara",
+            "Fatima"
+        ],
+        "validator":"required"
+
     },
     {
         "id": "description",
@@ -12,13 +37,7 @@
         "type": "text",
         "placeholder": "Enter Description",
         "value": ""
-    },
-    
-    {
-        "id": "date",
-        "label": "Date",
-        "type": "date",
-        "placeholder": "Enter Date",
-        "value": ""
     }
+    
+  
 ]
