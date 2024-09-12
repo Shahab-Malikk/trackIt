@@ -80,4 +80,20 @@ class ProjectsService {
         .map((doc) => Project.fromMap(doc.data() as Map<String, dynamic>))
         .toList();
   }
+
+  Future<List<double>> fetchTotalProjectExpenses(
+      String userId, String projectId) async {
+    CollectionReference expenseCollection = _usersCollection
+        .doc(userId)
+        .collection("projects")
+        .doc(projectId)
+        .collection('expenses');
+
+    QuerySnapshot snapshot = await expenseCollection.get();
+
+    List<double> expenses = snapshot.docs
+        .map((doc) => (doc.data() as Map<String, dynamic>)['amount'] as double)
+        .toList();
+    return expenses;
+  }
 }

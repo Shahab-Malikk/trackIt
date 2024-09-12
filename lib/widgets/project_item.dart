@@ -1,10 +1,13 @@
+import 'package:expense_tracker/fireStore_Services/collaborated_project_service.dart';
+import 'package:expense_tracker/fireStore_Services/projects_service.dart';
+import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/screens/project_detail.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:flutter/material.dart';
 
-class ProjectItem extends StatelessWidget {
+class ProjectItem extends StatefulWidget {
   final Project project;
   final String userId;
   const ProjectItem({
@@ -13,11 +16,44 @@ class ProjectItem extends StatelessWidget {
     required this.userId,
   });
 
+  @override
+  State<ProjectItem> createState() => _ProjectItemState();
+}
+
+class _ProjectItemState extends State<ProjectItem> {
+  double projectTotal = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProjectTotal();
+  }
+
+  void _fetchProjectTotal() async {
+    double total = 0.0;
+    List<double> amounts = widget.project.projectType == "Personal"
+        ? await ProjectsService(fireStoreService)
+            .fetchTotalProjectExpenses(widget.userId, widget.project.id)
+        : await CollaboratedProjectService(fireStoreService)
+            .fetchTotalProjectExpenses(widget.project.id);
+    print(widget.userId);
+    print(widget.project.id);
+    print(amounts);
+
+    amounts.forEach((amount) {
+      total += amount;
+    });
+    setState(() {
+      projectTotal = total;
+    });
+    print(projectTotal);
+  }
+
   void selectProject(BuildContext context, Project project) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (ctx) => ProjectDetailScreen(
         project: project,
-        userId: userId,
+        userId: widget.userId,
       ),
     ));
   }
@@ -29,7 +65,7 @@ class ProjectItem extends StatelessWidget {
       elevation: 1,
       child: InkWell(
         onTap: () {
-          selectProject(context, project);
+          selectProject(context, widget.project);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -39,18 +75,30 @@ class ProjectItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                project.title,
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w700,
-                ),
+              Row(
+                children: [
+                  Text(
+                    widget.project.title,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    '${projectTotal.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                project.description,
+                widget.project.description,
                 style: const TextStyle(
                   fontSize: TSizes.fontSizeMd,
                   color: TColors.darkGrey,
@@ -68,7 +116,7 @@ class ProjectItem extends StatelessWidget {
                         width: 3,
                       ),
                       Text(
-                        project.formattedDate,
+                        widget.project.formattedDate,
                         style: const TextStyle(
                           fontSize: TSizes.fontSizeMd,
                           color: TColors.darkGrey,
@@ -80,7 +128,7 @@ class ProjectItem extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        project.projectType == 'Personal'
+                        widget.project.projectType == 'Personal'
                             ? Icons.person
                             : Icons.people,
                       ),
@@ -88,7 +136,7 @@ class ProjectItem extends StatelessWidget {
                         width: 3,
                       ),
                       Text(
-                        project.projectType,
+                        widget.project.projectType,
                         style: const TextStyle(
                           fontSize: TSizes.fontSizeMd,
                           color: TColors.darkGrey,

@@ -167,4 +167,23 @@ class CollaboratedProjectService {
       }
     }
   }
+
+  Future<List<double>> fetchTotalProjectExpenses(String projectId) async {
+    List<String> collaboratorsIds = await fetchCollaboratorsIds(projectId);
+
+    CollectionReference expenseCollection =
+        _collaboratedProjectsCollection.doc(projectId).collection('expenses');
+
+    QuerySnapshot snapshot = await expenseCollection.get();
+
+    List<double> expenses = snapshot.docs
+        .map((doc) => (doc.data() as Map<String, dynamic>)['amount'] as double)
+        .toList();
+
+    List<double> updatedExpenses = expenses.map((expense) {
+      return expense / collaboratorsIds.length;
+    }).toList();
+
+    return updatedExpenses;
+  }
 }
