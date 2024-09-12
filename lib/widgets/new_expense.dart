@@ -183,7 +183,7 @@ class _NewExpenseState extends State<NewExpense> {
             ],
           ),
           const SizedBox(
-            height: 16,
+            height: 12,
           ),
           Row(
             children: [
@@ -221,7 +221,7 @@ class _NewExpenseState extends State<NewExpense> {
             ],
           ),
           const SizedBox(
-            height: 24,
+            height: 12,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -243,10 +243,10 @@ class _NewExpenseState extends State<NewExpense> {
                   }
                 },
               ),
-              const SizedBox(
-                height: 24,
-              ),
             ],
+          ),
+          const SizedBox(
+            height: 12,
           ),
           TextField(
             controller: _descriptionController,
@@ -276,13 +276,15 @@ class _NewExpenseState extends State<NewExpense> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 150,
-                height: 60,
-                child: ElevatedButton(
-                  onPressed: _submitExpenseData,
-                  child: const Text('Save Expense'),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
                 ),
+                onPressed: _submitExpenseData,
+                child: const Text('Save Expense'),
               ),
             ],
           )

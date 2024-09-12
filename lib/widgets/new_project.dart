@@ -103,7 +103,7 @@ class _NewProjectState extends State<NewProject> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
       child: Column(
         children: [
           Text(
@@ -115,7 +115,7 @@ class _NewProjectState extends State<NewProject> {
             ),
           ),
           const SizedBox(
-            height: 16,
+            height: 12,
           ),
           TextField(
             controller: _titleController,
@@ -165,7 +165,7 @@ class _NewProjectState extends State<NewProject> {
             ],
           ),
           const SizedBox(
-            height: 16,
+            height: 12,
           ),
           TextField(
             controller: _descriptionController,
@@ -178,7 +178,7 @@ class _NewProjectState extends State<NewProject> {
             maxLines: 5,
           ),
           const SizedBox(
-            height: 24,
+            height: 12,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -192,13 +192,19 @@ class _NewProjectState extends State<NewProject> {
                         fontSize: TSizes.fontSizeLg,
                         color: TColors.black,
                       ))),
-              SizedBox(
-                width: 150,
-                height: 60,
-                child: ElevatedButton(
-                    onPressed: _submitProjectData,
-                    child: const Text('Save Project')),
-              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                  ),
+                  onPressed: _submitProjectData,
+                  child: const Text('Save Project',
+                      style: TextStyle(
+                        fontSize: TSizes.fontSizeSm,
+                        color: TColors.white,
+                      ))),
             ],
           )
         ],

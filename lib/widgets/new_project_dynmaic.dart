@@ -19,6 +19,7 @@ class _NewDynamicFormState extends State<NewDynamicForm> {
 
   List<dynamic> _formFields = [];
 
+  // ignore: unused_field
   bool _isLoading = true;
 
   String? selectedCategory;

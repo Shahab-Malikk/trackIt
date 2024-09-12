@@ -130,13 +130,15 @@ class _AddIncomeState extends State<AddIncome> {
                                 fontSize: TSizes.fontSizeLg,
                                 color: TColors.black,
                               ))),
-                      SizedBox(
-                        width: 150,
-                        height: 60,
-                        child: ElevatedButton(
-                          onPressed: _addBalance,
-                          child: const Text('Save Data'),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
                         ),
+                        onPressed: _addBalance,
+                        child: const Text('Save Data'),
                       ),
                     ],
                   )

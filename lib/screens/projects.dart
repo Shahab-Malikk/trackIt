@@ -131,7 +131,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           ),
           child: const Icon(
             Icons.add,
-            size: 46,
+            size: 30,
             color: Colors.white,
           ),
         ),

@@ -189,7 +189,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
           ),
           child: const Icon(
             Icons.add,
-            size: 46,
+            size: 30,
             color: Colors.white,
           ),
         ),
@@ -256,7 +256,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                     ],
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   if (collaborators.isNotEmpty)
                     Column(
@@ -271,14 +271,16 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
+                        Wrap(
+                          spacing: 8.0, // Adds spacing between collaborators
+                          runSpacing: 8.0, // Adds spacing between rows
                           children: [
                             for (var i = 0; i < collaborators.length; i++)
                               CollaboratorItem(
                                 collaboratorName: collaborators[i],
                               ),
                           ],
-                        ),
+                        )
                       ],
                     ),
                   const Text(
@@ -289,7 +291,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   Expanded(
                     child: Expenses(
