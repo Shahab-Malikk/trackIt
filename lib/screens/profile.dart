@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final String userName;
+  const ProfileScreen({super.key, required this.userName});
 
+  get firstLetterofName => userName[0].toUpperCase();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,23 +21,45 @@ class ProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // CircleAvatar(
+              //   backgroundColor: Colors.transparent,
+              //   radius: 70,
+              //   child: ClipOval(
+              //     child: FadeInImage(
+              //       fit: BoxFit.cover,
+              //       placeholder: MemoryImage(kTransparentImage),
+              //       image: const NetworkImage(
+              //           'https://media.licdn.com/dms/image/D4D03AQEn8m5hZ1nfwA/profile-displayphoto-shrink_800_800/0/1723755435752?e=1729123200&v=beta&t=af4Qf3JxhoNyh7AdSNy_Bm3D0sk5zvDl5nG9UIOHfDU'),
+              //       height: double.infinity,
+              //       width: double.infinity,
+              //     ),
+              //   ),
+              // ),
+
               CircleAvatar(
                 backgroundColor: Colors.transparent,
-                radius: 70,
+                radius: 50,
                 child: ClipOval(
-                  child: FadeInImage(
-                    fit: BoxFit.cover,
-                    placeholder: MemoryImage(kTransparentImage),
-                    image: const NetworkImage(
-                        'https://media.licdn.com/dms/image/D4D03AQEn8m5hZ1nfwA/profile-displayphoto-shrink_800_800/0/1723755435752?e=1729123200&v=beta&t=af4Qf3JxhoNyh7AdSNy_Bm3D0sk5zvDl5nG9UIOHfDU'),
-                    height: double.infinity,
-                    width: double.infinity,
+                  child: Container(
+                    color: TColors.darkGrey,
+                    child: Center(
+                      child: Text(
+                        firstLetterofName,
+                        style: const TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                    ),
                   ),
                 ),
               ),
-              const Text(
-                "Shahab Malik",
-                style: TextStyle(
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                userName,
+                style: const TextStyle(
                     color: TColors.black,
                     fontSize: 24,
                     fontWeight: FontWeight.w500),

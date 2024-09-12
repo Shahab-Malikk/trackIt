@@ -5,6 +5,7 @@ import 'package:expense_tracker/screens/profile.dart';
 import 'package:expense_tracker/screens/projects.dart';
 import 'package:expense_tracker/screens/reconcilation.dart';
 import 'package:expense_tracker/fireStore_Services/user_data_service.dart';
+import 'package:expense_tracker/widgets/load_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class _TabsState extends State<Tabs> {
   Map<String, dynamic>? userData;
   String userName = '';
   String uid = '';
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _TabsState extends State<Tabs> {
           // debugPrint('User Data: $userData');
           setState(() {
             userName = userData?['userName'];
+            _isLoading = false;
           });
           WidgetsBinding.instance.addPostFrameCallback((_) {
             final financialData =
@@ -88,13 +91,18 @@ class _TabsState extends State<Tabs> {
     }
     if (_selectedPageIndex == 3) {
       activePageTitle = 'Profile';
-      activePage = const ProfileScreen();
+      activePage = ProfileScreen(
+        userName: userName,
+      );
     }
     return Scaffold(
       appBar: AppBar(
         title: Text(activePageTitle),
       ),
-      body: RefreshIndicator(onRefresh: fetchCurrentUser, child: activePage),
+      body: RefreshIndicator(
+        onRefresh: fetchCurrentUser,
+        child: _isLoading ? const LoadIndicator() : activePage,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPageIndex,
         onTap: (index) {
