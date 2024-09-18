@@ -5,6 +5,7 @@ import 'package:expense_tracker/screens/tabs.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/build_form.dart';
+import 'package:expense_tracker/widgets/load_indicator.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, dynamic> _formValues = {};
   List<dynamic> _formFields = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -31,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     List<dynamic> formData = await formService.fetchAuthFormData('login');
     setState(() {
       _formFields = formData;
+      _isLoading = false;
     });
   }
 
@@ -69,66 +72,69 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('Login'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: MediaQuery.of(context).size.height,
-          ),
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/trackitLogo.png',
-                      width: 200,
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    ..._formFields.map((field) {
-                      return buildFormField(
-                          context, field, _formValues, _handleValueChanged);
-                    }).toList(),
-                    const SizedBox(
-                      height: 30.0,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _login,
-                        child: const Text('Login'),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30.0,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: TColors.black,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const SignupScreen(),
+      body: _isLoading
+          ? const LoadIndicator()
+          : SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height,
+                ),
+                child: Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/trackitLogo.png',
+                            width: 200,
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'Create Account',
-                        style: TextStyle(fontSize: TSizes.fontSizeLg),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          ..._formFields.map((field) {
+                            return buildFormField(context, field, _formValues,
+                                _handleValueChanged);
+                          }).toList(),
+                          const SizedBox(
+                            height: 30.0,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: _login,
+                              child: const Text('Login'),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30.0,
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: TColors.black,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const SignupScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              'Create Account',
+                              style: TextStyle(fontSize: TSizes.fontSizeLg),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
