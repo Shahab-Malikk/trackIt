@@ -29,7 +29,7 @@ TrackIt is a comprehensive expense tracking app designed to help users manage th
 
 ![Screenshot 2024-09-09 174351](https://github.com/user-attachments/assets/aa9339f9-c284-4148-b82d-aac22e43020a)
 
-![Screenshot 20![Screenshot 2024-09-09 174431](https://github.com/user-attachments/assets/ada67ed4-6d2a-4b0c-8350-861feb73c9e3)
+![Screenshot 2024-09-09 174431](https://github.com/user-attachments/assets/ada67ed4-6d2a-4b0c-8350-861feb73c9e3)
 
 ![Screenshot 2024-09-09 174501](https://github.com/user-attachments/assets/bacde435-acf0-4c25-86a2-a13143bb8ff4)
 
