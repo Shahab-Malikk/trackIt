@@ -30,14 +30,6 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   }
 
   void _openAddProjectOverlay() {
-    // showModalBottomSheet(
-    //   isScrollControlled: true,
-    //   context: context,
-    //   builder: (ctx) => NewProject(
-    //     onAddProject: _addProject,
-    //   ),
-    // );
-
     //Push to Project Type Selection Screen
     Navigator.of(context).push(
       MaterialPageRoute(

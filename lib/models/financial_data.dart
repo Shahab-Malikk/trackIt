@@ -16,6 +16,12 @@ class FinancialData extends ChangeNotifier {
     _totalBalance = newIncome;
     notifyListeners();
   }
+
+  void resetAmounts() {
+    _totalBalance = 0.0;
+    _totalExpenses = 0.0;
+    notifyListeners();
+  }
 }
 
 class FinancialDataService {}

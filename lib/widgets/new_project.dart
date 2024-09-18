@@ -90,7 +90,7 @@ class _NewProjectState extends State<NewProject> {
 
     widget.onAddProject(project);
     Navigator.pop(context);
-    Navigator.popUntil(context, (route) => route.isFirst);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -126,25 +126,6 @@ class _NewProjectState extends State<NewProject> {
           ),
           Row(
             children: [
-              // Expanded(
-              //   child: DropdownButton<String>(
-              //     hint: const Text('Intiated By'),
-              //     value: _paidBy,
-              //     items: contributors.map((person) {
-              //       return DropdownMenuItem<String>(
-              //         value: person,
-              //         child: Text(person),
-              //       );
-              //     }).toList(),
-              //     onChanged: (value) {
-              //       if (value != null) {
-              //         setState(() {
-              //           _paidBy = value;
-              //         });
-              //       }
-              //     },
-              //   ),
-              // ),
               const SizedBox(
                 width: 12,
               ),

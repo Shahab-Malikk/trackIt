@@ -49,11 +49,7 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (ctx) =>
-
-          // NewDynamicForm(),
-
-          AddIncome(
+      builder: (ctx) => AddIncome(
         onAddIncome: _addIncome,
         userId: widget.userId,
       ),

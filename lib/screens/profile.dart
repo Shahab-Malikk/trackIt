@@ -1,8 +1,9 @@
+import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/screens/login.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   final String userName;
@@ -11,6 +12,7 @@ class ProfileScreen extends StatelessWidget {
   get firstLetterofName => userName[0].toUpperCase();
   @override
   Widget build(BuildContext context) {
+    final balanceProvider = Provider.of<FinancialData>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Column(
@@ -21,21 +23,6 @@ class ProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // CircleAvatar(
-              //   backgroundColor: Colors.transparent,
-              //   radius: 70,
-              //   child: ClipOval(
-              //     child: FadeInImage(
-              //       fit: BoxFit.cover,
-              //       placeholder: MemoryImage(kTransparentImage),
-              //       image: const NetworkImage(
-              //           'https://media.licdn.com/dms/image/D4D03AQEn8m5hZ1nfwA/profile-displayphoto-shrink_800_800/0/1723755435752?e=1729123200&v=beta&t=af4Qf3JxhoNyh7AdSNy_Bm3D0sk5zvDl5nG9UIOHfDU'),
-              //       height: double.infinity,
-              //       width: double.infinity,
-              //     ),
-              //   ),
-              // ),
-
               CircleAvatar(
                 backgroundColor: Colors.transparent,
                 radius: 50,
@@ -76,6 +63,7 @@ class ProfileScreen extends StatelessWidget {
                         builder: (context) => const LoginScreen()),
                     (Route<dynamic> route) => false);
               });
+              balanceProvider.resetAmounts();
             },
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -36,9 +36,6 @@ class _ProjectItemState extends State<ProjectItem> {
             .fetchTotalProjectExpenses(widget.userId, widget.project.id)
         : await CollaboratedProjectService(fireStoreService)
             .fetchTotalProjectExpenses(widget.project.id);
-    print(widget.userId);
-    print(widget.project.id);
-    print(amounts);
 
     amounts.forEach((amount) {
       total += amount;
@@ -46,7 +43,6 @@ class _ProjectItemState extends State<ProjectItem> {
     setState(() {
       projectTotal = total;
     });
-    print(projectTotal);
   }
 
   void selectProject(BuildContext context, Project project) {

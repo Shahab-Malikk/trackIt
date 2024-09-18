@@ -1,12 +1,11 @@
-import 'dart:convert';
 import 'package:expense_tracker/fireStore_Services/auth_service.dart';
+import 'package:expense_tracker/fireStore_Services/form_service.dart';
 import 'package:expense_tracker/screens/signup.dart';
 import 'package:expense_tracker/screens/tabs.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/build_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,14 +23,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _loadFormFields();
+    _loadFormDataFromRealtimeDatabase();
   }
 
-  Future<void> _loadFormFields() async {
-    final jsonString = await rootBundle.loadString('formsData/auth_form.json');
-    final Map<String, dynamic> allForms = json.decode(jsonString);
-    final List<dynamic> formData = allForms['login'];
-
+  Future<void> _loadFormDataFromRealtimeDatabase() async {
+    FormService formService = FormService();
+    List<dynamic> formData = await formService.fetchAuthFormData('login');
     setState(() {
       _formFields = formData;
     });

@@ -48,9 +48,10 @@ class _TabsState extends State<Tabs> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             final financialData =
                 Provider.of<FinancialData>(context, listen: false);
-
-            financialData.updateTotalIncome(userData?['balance'].toDouble());
-            financialData.updateTotalExpenses(userData?['expenses'].toDouble());
+            double income = userData?['balance']?.toDouble() ?? 0.0;
+            double expenses = userData?['expenses']?.toDouble() ?? 0.0;
+            financialData.updateTotalIncome(income);
+            financialData.updateTotalExpenses(expenses);
           });
         } else {
           print('No data found for user with UID: $uid');

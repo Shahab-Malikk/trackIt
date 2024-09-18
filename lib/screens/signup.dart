@@ -1,9 +1,8 @@
-import 'dart:convert';
 import 'package:expense_tracker/fireStore_Services/auth_service.dart';
+import 'package:expense_tracker/fireStore_Services/form_service.dart';
 import 'package:expense_tracker/screens/tabs.dart';
 import 'package:expense_tracker/utils/build_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -21,14 +20,12 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   void initState() {
     super.initState();
-    _loadFormFields();
+    _loadFormDataFromRealtimeDatabase();
   }
 
-  Future<void> _loadFormFields() async {
-    final jsonString = await rootBundle.loadString('formsData/auth_form.json');
-    final Map<String, dynamic> allForms = json.decode(jsonString);
-    final List<dynamic> formData = allForms['signup'];
-
+  Future<void> _loadFormDataFromRealtimeDatabase() async {
+    FormService formService = FormService();
+    List<dynamic> formData = await formService.fetchAuthFormData('signup');
     setState(() {
       _formFields = formData;
     });
@@ -43,7 +40,6 @@ class _SignupScreenState extends State<SignupScreen> {
   void _signup() async {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState!.save();
-      print(_formValues);
       final message = await AuthService().registration(
         email: _formValues['email'],
         password: _formValues['password'],
@@ -71,39 +67,46 @@ class _SignupScreenState extends State<SignupScreen> {
         title: const Text('Create Account'),
         centerTitle: true,
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/trackitLogo.png',
-                width: 200,
+      body: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/trackitLogo.png',
+                    width: 200,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  ..._formFields.map((field) {
+                    return buildFormField(
+                      context,
+                      field,
+                      _formValues,
+                      _handleValueChanged,
+                    );
+                  }).toList(),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _signup,
+                      child: const Text('Create Account'),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 50,
-              ),
-              ..._formFields.map((field) {
-                return buildFormField(
-                  context,
-                  field,
-                  _formValues,
-                  _handleValueChanged,
-                );
-              }).toList(),
-              const SizedBox(
-                height: 30.0,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _signup,
-                  child: const Text('Create Account'),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

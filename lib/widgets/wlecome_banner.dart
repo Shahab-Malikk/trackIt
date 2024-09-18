@@ -1,6 +1,5 @@
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class WlecomeBanner extends StatelessWidget {
   final String userName;
@@ -12,21 +11,6 @@ class WlecomeBanner extends StatelessWidget {
     return SizedBox(
       child: Row(
         children: [
-          // CircleAvatar(
-          //   backgroundColor: Colors.transparent,
-          //   radius: 35,
-          //   child: ClipOval(
-          //     child: FadeInImage(
-          //       fit: BoxFit.cover,
-          //       placeholder: MemoryImage(kTransparentImage),
-          //       image: const NetworkImage(
-          //           'https://avatars.githubusercontent.com/u/74496590?v=4'),
-          //       height: double.infinity,
-          //       width: double.infinity,
-          //     ),
-          //   ),
-          // ),
-
           CircleAvatar(
             backgroundColor: Colors.transparent,
             radius: 35,

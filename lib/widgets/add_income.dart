@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expense_tracker/fireStore_Services/category_service.dart';
 import 'package:expense_tracker/fireStore_Services/form_service.dart';
 import 'package:expense_tracker/models/financial_data.dart';
-import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/income.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
@@ -43,15 +41,6 @@ class _AddIncomeState extends State<AddIncome> {
     setState(() {
       _formFields = formData;
       _isLoading = false;
-    });
-  }
-
-  void _fetchContributors() async {
-    // ignore: unused_local_variable
-    final List<String> contributorsFromDb =
-        await CategoryService(fireStoreService).getSenders();
-    setState(() {
-      // contributors = contributorsFromDb;
     });
   }
 
