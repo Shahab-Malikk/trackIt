@@ -33,7 +33,6 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     _fetchAndStoreExpenses();
   }
 

@@ -25,6 +25,9 @@ class RecentProjects extends StatelessWidget {
           child: ProjectsList(
             projects: recentProjects,
             userId: userId,
+            deleteProject: (project) {
+              recentProjects.remove(project);
+            },
           ),
         ),
       ],

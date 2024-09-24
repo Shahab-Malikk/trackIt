@@ -93,6 +93,21 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
     }
   }
 
+  void removeProject(Project project) {
+    setState(() {
+      projects.remove(project);
+    });
+
+    try {
+      if (project.projectType == "Personal") {
+        ProjectsService(fireStoreService)
+            .deleteProject(widget.userId, project.id, context);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -150,6 +165,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                     child: ProjectsList(
                       projects: projects,
                       userId: widget.userId,
+                      deleteProject: removeProject,
                     ),
                   ),
                 ],

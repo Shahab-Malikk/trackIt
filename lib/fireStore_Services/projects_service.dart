@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class ProjectsService {
   final FirestoreServices _fireStoreServices;
@@ -104,5 +107,40 @@ class ProjectsService {
         .doc(projectId)
         .collection('expenses')
         .snapshots();
+  }
+
+  Future<void> deleteProject(
+      String userId, String projectId, BuildContext context) async {
+    final financialData = Provider.of<FinancialData>(context, listen: false);
+    List<double> expenses = await fetchTotalProjectExpenses(userId, projectId);
+    double totalExpenses = expenses.fold(0, (a, b) => a + b);
+    final updatedExpenses = financialData.totalExpenses - totalExpenses;
+    financialData.updateTotalExpenses(updatedExpenses);
+    final updatedBalance = financialData.totalBalance + totalExpenses;
+    financialData.updateTotalIncome(updatedBalance);
+    await _usersCollection.doc(userId).update({
+      'expenses': updatedExpenses,
+      'balance': updatedBalance,
+    });
+
+    // delete expenses with in project
+
+    await _usersCollection
+        .doc(userId)
+        .collection('projects')
+        .doc(projectId)
+        .collection('expenses')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot doc in snapshot.docs) {
+        doc.reference.delete();
+      }
+    });
+
+    return _usersCollection
+        .doc(userId)
+        .collection('projects')
+        .doc(projectId)
+        .delete();
   }
 }

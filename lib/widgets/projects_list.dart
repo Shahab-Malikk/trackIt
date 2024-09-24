@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 class ProjectsList extends StatelessWidget {
   final List<Project> projects;
   final String userId;
+  final void Function(Project project) deleteProject;
   const ProjectsList({
     super.key,
     required this.projects,
     required this.userId,
+    required this.deleteProject,
   });
 
   @override
@@ -19,7 +21,8 @@ class ProjectsList extends StatelessWidget {
       return ListView.builder(
         itemCount: projects.length,
         itemBuilder: (context, index) => Dismissible(
-          key: ValueKey(index),
+          onDismissed: (direction) => deleteProject(projects[index]),
+          key: ValueKey(projects[index].id),
           background: Container(),
           child: ProjectItem(
             project: projects[index],
