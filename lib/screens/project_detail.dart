@@ -56,44 +56,68 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
 
     try {
       if (widget.project.projectType == "Personal") {
-        final financialData =
-            Provider.of<FinancialData>(context, listen: false);
-        final totalExpenses = financialData.totalExpenses + expense.amount;
-        financialData.updateTotalExpenses(totalExpenses);
-        final balance = financialData.totalBalance - expense.amount;
-        financialData.updateTotalIncome(balance);
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(widget.userId)
-            .update({
-          'expenses': totalExpenses,
-          'balance': balance,
-        });
-        await ExpensesService(fireStoreService).storeExpenseOfProjectInDb(
-            expense, widget.userId, widget.project.id);
+        await _handlePersonalProjectExpense(expense);
       } else {
-        List<String> collaborators =
-            await CollaboratedProjectService(fireStoreService)
-                .fetchCollaboratorsIds(widget.project.id);
-        final amountPerCollaborator = expense.amount / (collaborators.length);
-        await CollaboratedProjectService(fireStoreService)
-            .updateBalanceAndExpenseOfCollaborators(
-                collaborators, amountPerCollaborator, "AddExpense");
-        await CollaboratedProjectService(fireStoreService)
-            .storeExpenseOfCollaboratedProjectInDb(
-          widget.project.id,
-          expense,
-        );
+        await _handleCollaboratedProjectExpense(expense);
       }
+
       if (context.mounted) {
         UtilityFunctions().showInfoMessage(
-          "Expense Added Sucessfuly.",
+          "Expense Added Successfully.",
           context,
         );
       }
     } catch (e) {
-      UtilityFunctions().showInfoMessage("An error occured.", context);
+      UtilityFunctions().showInfoMessage("An error occurred.", context);
     }
+  }
+
+  Future<void> _handlePersonalProjectExpense(Expense expense) async {
+    final financialData = Provider.of<FinancialData>(context, listen: false);
+
+    // Update total expenses and balance
+    final totalExpenses = financialData.totalExpenses + expense.amount;
+    final balance = financialData.totalBalance - expense.amount;
+
+    // Update FinancialData and Firestore
+    financialData.updateTotalExpenses(totalExpenses);
+    financialData.updateTotalIncome(balance);
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.userId)
+        .update({
+      'expenses': totalExpenses,
+      'balance': balance,
+    });
+
+    // Store expense in Firestore for the project
+    await ExpensesService(fireStoreService)
+        .storeExpenseOfProjectInDb(expense, widget.userId, widget.project.id);
+  }
+
+  Future<void> _handleCollaboratedProjectExpense(Expense expense) async {
+    final collaborators = await CollaboratedProjectService(fireStoreService)
+        .fetchCollaboratorsIds(widget.project.id);
+
+    final amountPerCollaborator = expense.amount / collaborators.length;
+    final financialData = Provider.of<FinancialData>(context, listen: false);
+
+    // Update total expenses and balance for collaborators
+    final totalExpenses = financialData.totalExpenses + amountPerCollaborator;
+    final balance = financialData.totalBalance - amountPerCollaborator;
+
+    financialData.updateTotalExpenses(totalExpenses);
+    financialData.updateTotalIncome(balance);
+
+    // Update balance and expenses for each collaborator in Firestore
+    await CollaboratedProjectService(fireStoreService)
+        .updateBalanceAndExpenseOfCollaborators(
+            collaborators, amountPerCollaborator, "AddExpense");
+
+    // Store expense in Firestore for the collaborated project
+    await CollaboratedProjectService(fireStoreService)
+        .storeExpenseOfCollaboratedProjectInDb(widget.project.id, expense);
   }
 
   void _fetchAndStoreExpenses() async {
@@ -118,47 +142,71 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   void _removeExpense(Expense expense) async {
     try {
       if (widget.project.projectType == "Personal") {
-        final financialData =
-            Provider.of<FinancialData>(context, listen: false);
-        final totalExpenses = financialData.totalExpenses - expense.amount;
-        financialData.updateTotalExpenses(totalExpenses);
-        final balance = financialData.totalBalance + expense.amount;
-        financialData.updateTotalIncome(balance);
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(widget.userId)
-            .update({
-          'expenses': totalExpenses,
-          'balance': balance,
-        });
-
-        await ExpensesService(fireStoreService).deleteExpenseOfProject(
-            widget.userId, widget.project.id, expense.id);
+        await _removePersonalExpense(expense);
       } else {
-        List<String> collaborators =
-            await CollaboratedProjectService(fireStoreService)
-                .fetchCollaboratorsIds(widget.project.id);
-        final amountPerCollaborator = expense.amount / (collaborators.length);
-        await CollaboratedProjectService(fireStoreService)
-            .updateBalanceAndExpenseOfCollaborators(
-                collaborators, amountPerCollaborator, "RemoveExpense");
-        await CollaboratedProjectService(fireStoreService)
-            .deleteExpenseOfCollaboratedProject(widget.project.id, expense.id);
+        await _removeCollaboratedExpense(expense);
       }
 
-      if (context.mounted) {
-        UtilityFunctions().showInfoMessage(
-          "Expense Deleted Sucessfuly.",
-          context,
-        );
-      }
+      showMessage("Expense Deleted Successfully.");
+
+      setState(() {
+        _registeredExpenses.remove(expense);
+      });
     } catch (e) {
-      UtilityFunctions().showInfoMessage("An error occured.", context);
+      showMessage("An error occurred.");
     }
+  }
 
-    setState(() {
-      _registeredExpenses.remove(expense);
+// Method to remove personal expense
+  Future<void> _removePersonalExpense(Expense expense) async {
+    final financialData = Provider.of<FinancialData>(context, listen: false);
+    final totalExpenses = financialData.totalExpenses - expense.amount;
+    final updatedBalance = financialData.totalBalance + expense.amount;
+
+    // Update local financial data
+    financialData.updateTotalExpenses(totalExpenses);
+    financialData.updateTotalIncome(updatedBalance);
+
+    // Update Firestore with new total expenses and balance
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.userId)
+        .update({
+      'expenses': totalExpenses,
+      'balance': updatedBalance,
     });
+
+    // Remove the expense from Firestore
+    await ExpensesService(fireStoreService)
+        .deleteExpenseOfProject(widget.userId, widget.project.id, expense.id);
+  }
+
+// Method to remove collaborated project expense
+  Future<void> _removeCollaboratedExpense(Expense expense) async {
+    final collaborators = await _getCollaborators(widget.project.id);
+    final amountPerCollaborator = expense.amount / collaborators.length;
+
+    // Update the balances and expenses for each collaborator
+    await CollaboratedProjectService(fireStoreService)
+        .updateBalanceAndExpenseOfCollaborators(
+            collaborators, amountPerCollaborator, "RemoveExpense");
+
+    // Remove the expense from the collaborated project
+    await CollaboratedProjectService(fireStoreService)
+        .deleteExpenseOfCollaboratedProject(widget.project.id, expense.id);
+  }
+
+// Helper method to get collaborators of a project
+  Future<List<String>> _getCollaborators(String projectId) async {
+    return await CollaboratedProjectService(fireStoreService)
+        .fetchCollaboratorsIds(projectId);
+  }
+
+// General method to show any message
+  void showMessage(String message) {
+    if (context.mounted) {
+      UtilityFunctions().showInfoMessage(message, context);
+    }
   }
 
   @override
