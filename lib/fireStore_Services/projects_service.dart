@@ -96,4 +96,13 @@ class ProjectsService {
         .toList();
     return expenses;
   }
+
+  Stream<QuerySnapshot> streamProjectExpenses(String userId, String projectId) {
+    return _usersCollection
+        .doc(userId)
+        .collection('projects')
+        .doc(projectId)
+        .collection('expenses')
+        .snapshots();
+  }
 }

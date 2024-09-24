@@ -14,7 +14,7 @@ class TBottomNavigationBarTheme {
     type: BottomNavigationBarType.fixed,
   );
 
-  static final darkBottomNavBarTheme = BottomNavigationBarThemeData(
+  static const darkBottomNavBarTheme = BottomNavigationBarThemeData(
     backgroundColor: TColors.black,
     selectedItemColor: TColors.primary,
     unselectedItemColor: TColors.darkGrey,

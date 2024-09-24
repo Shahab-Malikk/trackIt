@@ -28,6 +28,7 @@ class _AddIncomeState extends State<AddIncome> {
   // List<String> contributors = [];
   bool _isLoading = true;
 
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -103,7 +104,7 @@ class _AddIncomeState extends State<AddIncome> {
                   ..._formFields.map((field) {
                     return buildFormField(
                         context, field, _formValues, _handleValueChanged);
-                  }).toList(),
+                  }),
                   const SizedBox(
                     height: 24,
                   ),

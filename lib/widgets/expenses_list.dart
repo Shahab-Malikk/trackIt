@@ -21,13 +21,13 @@ class ExpensesList extends StatelessWidget {
             color: TColors.error.withOpacity(0.1),
             elevation: 1,
             child: const Padding(
-              padding: const EdgeInsets.symmetric(
+              padding: EdgeInsets.symmetric(
                 vertical: 16,
                 horizontal: 20,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
+                children: [
                   Icon(
                     Icons.delete,
                     color: TColors.error,

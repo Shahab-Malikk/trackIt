@@ -99,7 +99,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             _formValues,
                             _handleValueChanged,
                           );
-                        }).toList(),
+                        }),
                         const SizedBox(
                           height: 30.0,
                         ),

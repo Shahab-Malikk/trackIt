@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ..._formFields.map((field) {
                             return buildFormField(context, field, _formValues,
                                 _handleValueChanged);
-                          }).toList(),
+                          }),
                           const SizedBox(
                             height: 30.0,
                           ),

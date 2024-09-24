@@ -186,4 +186,11 @@ class CollaboratedProjectService {
 
     return updatedExpenses;
   }
+
+  Stream<QuerySnapshot> streamProjectExpenses(String projectId) {
+    return _collaboratedProjectsCollection
+        .doc(projectId)
+        .collection('expenses')
+        .snapshots();
+  }
 }

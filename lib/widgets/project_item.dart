@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/fireStore_Services/collaborated_project_service.dart';
 import 'package:expense_tracker/fireStore_Services/projects_service.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 class ProjectItem extends StatefulWidget {
   final Project project;
   final String userId;
+
   const ProjectItem({
     super.key,
     required this.project,
@@ -21,39 +23,6 @@ class ProjectItem extends StatefulWidget {
 }
 
 class _ProjectItemState extends State<ProjectItem> {
-  double projectTotal = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchProjectTotal();
-  }
-
-  void _fetchProjectTotal() async {
-    double total = 0.0;
-    List<double> amounts = widget.project.projectType == "Personal"
-        ? await ProjectsService(fireStoreService)
-            .fetchTotalProjectExpenses(widget.userId, widget.project.id)
-        : await CollaboratedProjectService(fireStoreService)
-            .fetchTotalProjectExpenses(widget.project.id);
-
-    amounts.forEach((amount) {
-      total += amount;
-    });
-    setState(() {
-      projectTotal = total;
-    });
-  }
-
-  void selectProject(BuildContext context, Project project) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (ctx) => ProjectDetailScreen(
-        project: project,
-        userId: widget.userId,
-      ),
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -80,13 +49,49 @@ class _ProjectItemState extends State<ProjectItem> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Spacer(),
-                  Text(
-                    '${projectTotal.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  const Spacer(),
+                  // Wrap the total expenses with a StreamBuilder to listen for real-time updates
+                  StreamBuilder<QuerySnapshot>(
+                    stream: widget.project.projectType == "Personal"
+                        ? ProjectsService(fireStoreService)
+                            .streamProjectExpenses(
+                                widget.userId, widget.project.id)
+                        : CollaboratedProjectService(fireStoreService)
+                            .streamProjectExpenses(widget.project.id),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return const Text("Error");
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      }
+
+                      double total = 0.0;
+                      if (snapshot.hasData) {
+                        total =
+                            snapshot.data!.docs.fold(0.0, (previousValue, doc) {
+                          final data = doc.data() as Map<String, dynamic>;
+                          final amount = data['amount'];
+                          if (amount is int) {
+                            return previousValue + amount.toDouble();
+                          } else if (amount is double) {
+                            return previousValue + amount;
+                          } else if (amount is String) {
+                            return previousValue +
+                                (double.tryParse(amount) ?? 0.0);
+                          }
+                          return previousValue;
+                        });
+                      }
+
+                      return Text(
+                        total.toStringAsFixed(2),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -141,11 +146,20 @@ class _ProjectItemState extends State<ProjectItem> {
                     ],
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void selectProject(BuildContext context, Project project) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (ctx) => ProjectDetailScreen(
+        project: project,
+        userId: widget.userId,
+      ),
+    ));
   }
 }
