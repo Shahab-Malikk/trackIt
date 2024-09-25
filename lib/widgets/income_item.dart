@@ -9,6 +9,7 @@ class IncomeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //checking if paidBy is not null
     final isPaidbyNameNotNull = income.paidBy.trim() != '';
     return Card(
       color: TColors.white,

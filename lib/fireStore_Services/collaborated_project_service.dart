@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class CollaboratedProjectService {
   final FirestoreServices _firestoreServices;
@@ -185,6 +188,43 @@ class CollaboratedProjectService {
     }).toList();
 
     return updatedExpenses;
+  }
+
+  Future<void> deleteCollaboratedProject(
+      String projectId, BuildContext context) async {
+    List<String> collaboratorsIds = await fetchCollaboratorsIds(projectId);
+    List<double> expenses = await fetchTotalProjectExpenses(projectId);
+    double totalExpenses = expenses.fold(0, (a, b) => a + b);
+    final financialData = Provider.of<FinancialData>(context, listen: false);
+
+    final updatedExpenses = financialData.totalExpenses - totalExpenses;
+    financialData.updateTotalExpenses(updatedExpenses);
+    final updatedBalance = financialData.totalBalance + totalExpenses;
+    financialData.updateTotalIncome(updatedBalance);
+
+    await updateBalanceAndExpenseOfCollaborators(
+        collaboratorsIds, totalExpenses, "DeleteExpense");
+
+    // delete expenses with in project
+
+    await _collaboratedProjectsCollection
+        .doc(projectId)
+        .collection('expenses')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot doc in snapshot.docs) {
+        doc.reference.delete();
+      }
+    });
+
+    return _collaboratedProjectsCollection
+        .doc(projectId)
+        .delete()
+        .then((value) {
+      print("Project Deleted");
+    }).catchError((error) {
+      print("Failed to delete user: $error");
+    });
   }
 
   Stream<QuerySnapshot> streamProjectExpenses(String projectId) {

@@ -102,6 +102,9 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       if (project.projectType == "Personal") {
         ProjectsService(fireStoreService)
             .deleteProject(widget.userId, project.id, context);
+      } else {
+        CollaboratedProjectService(fireStoreService)
+            .deleteCollaboratedProject(project.id, context);
       }
     } catch (e) {
       print(e);

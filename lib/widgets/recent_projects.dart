@@ -1,3 +1,4 @@
+import 'package:expense_tracker/fireStore_Services/collaborated_project_service.dart';
 import 'package:expense_tracker/fireStore_Services/projects_service.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
@@ -19,6 +20,7 @@ class RecentProjects extends StatefulWidget {
 }
 
 class _RecentProjectsState extends State<RecentProjects> {
+  //Function to remove project from recent projects
   void removeProject(Project project) {
     setState(() {
       widget.recentProjects.remove(project);
@@ -27,6 +29,9 @@ class _RecentProjectsState extends State<RecentProjects> {
       if (project.projectType == "Personal") {
         ProjectsService(fireStoreService)
             .deleteProject(widget.userId, project.id, context);
+      } else {
+        CollaboratedProjectService(fireStoreService)
+            .deleteCollaboratedProject(project.id, context);
       }
     } catch (e) {
       print(e);
