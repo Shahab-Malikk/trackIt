@@ -53,6 +53,11 @@ class CollaboratedProjectService {
     }
   }
 
+//Fetch Collaborators Names to display on project details screen
+// Steps:
+// 1. Fetch Collaborators Ids
+// 2. Fetch Collaborators Names
+
   Future<List<String>> fetchCollaboratorsNames(
       String projectId, String currentUserId) async {
     List<String> collaboratorsIds = await fetchCollaboratorsIds(projectId);
@@ -140,6 +145,10 @@ class CollaboratedProjectService {
   }
 
 // Update Balance and Expenses of Collaborators
+// Steps:
+// 1. Fetch Collaborators Ids
+// 2. Update Balance and Expenses of Collaborators
+
   Future<void> updateBalanceAndExpenseOfCollaborators(
       List<String> collaboratorsIds, double amount, String action) async {
     for (String userId in collaboratorsIds) {
@@ -171,6 +180,12 @@ class CollaboratedProjectService {
     }
   }
 
+  // Fetch Total Project Expenses
+  // Steps:
+  // 1. Fetch Collaborators Ids
+  // 2. Fetch Expenses of Project
+  // 3. Update Expenses of Collaborators
+
   Future<List<double>> fetchTotalProjectExpenses(String projectId) async {
     List<String> collaboratorsIds = await fetchCollaboratorsIds(projectId);
 
@@ -189,6 +204,14 @@ class CollaboratedProjectService {
 
     return updatedExpenses;
   }
+
+//Function to delete Collaborated Project
+// Steps:
+// 1. Fetch Collaborators Ids
+// 2. Fetch Total Project Expenses
+// 3. Update Balance and Expenses of Collaborators
+// 4. Delete Expenses within Project
+// 5. Delete Project
 
   Future<void> deleteCollaboratedProject(
       String projectId, BuildContext context) async {

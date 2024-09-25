@@ -53,7 +53,11 @@ class ProjectsList extends StatelessWidget {
               ),
             ),
           ),
-          onDismissed: (direction) => deleteProject(projects[index]),
+          direction: DismissDirection
+              .endToStart, // Only allow dismissal from right to left
+          onDismissed: (direction) {
+            deleteProject(projects[index]);
+          },
           key: ValueKey(projects[index].id),
           child: ProjectItem(
             project: projects[index],

@@ -22,9 +22,6 @@ class RecentProjects extends StatefulWidget {
 class _RecentProjectsState extends State<RecentProjects> {
   //Function to remove project from recent projects
   void removeProject(Project project) {
-    setState(() {
-      widget.recentProjects.remove(project);
-    });
     try {
       if (project.projectType == "Personal") {
         ProjectsService(fireStoreService)
@@ -33,6 +30,9 @@ class _RecentProjectsState extends State<RecentProjects> {
         CollaboratedProjectService(fireStoreService)
             .deleteCollaboratedProject(project.id, context);
       }
+      setState(() {
+        widget.recentProjects.remove(project);
+      });
     } catch (e) {
       print(e);
     }
