@@ -24,7 +24,6 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _fetchProjectsFromDb();
   }
@@ -46,6 +45,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
     });
 
     try {
+      // Store personal project in db
       if (project.projectType == "Personal") {
         await ProjectsService(fireStoreService).storeProjectInDb(
           project,

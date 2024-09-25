@@ -1,4 +1,5 @@
 import 'package:expense_tracker/models/project.dart';
+import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/widgets/no_data.dart';
 import 'package:expense_tracker/widgets/project_item.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +22,39 @@ class ProjectsList extends StatelessWidget {
       return ListView.builder(
         itemCount: projects.length,
         itemBuilder: (context, index) => Dismissible(
+          background: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Card(
+              color: TColors.error.withOpacity(0.1),
+              elevation: 1,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 16,
+                  horizontal: 20,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(
+                      Icons.delete,
+                      color: TColors.error,
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      'Delete',
+                      style: TextStyle(
+                        color: TColors.error,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
           onDismissed: (direction) => deleteProject(projects[index]),
           key: ValueKey(projects[index].id),
-          background: Container(),
           child: ProjectItem(
             project: projects[index],
             userId: userId,

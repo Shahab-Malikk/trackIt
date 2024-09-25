@@ -58,10 +58,6 @@ class ProjectsService {
       return Project.fromMap(doc.data() as Map<String, dynamic>);
     }).toList();
 
-    // return querySnapshot.docs
-    //     .map((doc) => Project.fromMap(doc.data() as Map<String, dynamic>))
-    //     .toList();
-
 //Merging projects to get top 3 recent projects
     List<Project> allProjects = [
       ...individualProjects,
@@ -111,6 +107,7 @@ class ProjectsService {
 
   Future<void> deleteProject(
       String userId, String projectId, BuildContext context) async {
+    // update total expenses and balance
     final financialData = Provider.of<FinancialData>(context, listen: false);
     List<double> expenses = await fetchTotalProjectExpenses(userId, projectId);
     double totalExpenses = expenses.fold(0, (a, b) => a + b);
@@ -137,6 +134,7 @@ class ProjectsService {
       }
     });
 
+    // delete project
     return _usersCollection
         .doc(userId)
         .collection('projects')
