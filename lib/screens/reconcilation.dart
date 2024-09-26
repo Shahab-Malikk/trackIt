@@ -4,6 +4,7 @@ import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/income.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
+import 'package:expense_tracker/utils/utility_functions.dart';
 import 'package:expense_tracker/widgets/add_income.dart';
 import 'package:expense_tracker/widgets/income_records.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,14 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
       _incomeRecord.add(income);
     });
 
-    await IncomeSrvice(fireStoreService).storeIncomeInDb(income, widget.userId);
+    try {
+      await IncomeSrvice(fireStoreService)
+          .storeIncomeInDb(income, widget.userId);
+      UtilityFunctions().showInfoMessage("Balance added successfuly", context);
+    } catch (e) {
+      UtilityFunctions().showInfoMessage("An error occured", context);
+      print(e);
+    }
   }
 
   void _fetchIncomeRecordFromDb() async {
