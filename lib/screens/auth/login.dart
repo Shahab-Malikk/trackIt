@@ -1,7 +1,7 @@
 import 'package:expense_tracker/fireStore_Services/auth_service.dart';
 import 'package:expense_tracker/fireStore_Services/form_service.dart';
-import 'package:expense_tracker/screens/signup.dart';
-import 'package:expense_tracker/screens/tabs.dart';
+import 'package:expense_tracker/screens/auth/signup.dart';
+import 'package:expense_tracker/screens/postAuth/tabs.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/build_form.dart';

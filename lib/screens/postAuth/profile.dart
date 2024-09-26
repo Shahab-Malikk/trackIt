@@ -1,5 +1,5 @@
 import 'package:expense_tracker/models/financial_data.dart';
-import 'package:expense_tracker/screens/login.dart';
+import 'package:expense_tracker/screens/auth/login.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

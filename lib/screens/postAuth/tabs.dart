@@ -1,9 +1,9 @@
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
-import 'package:expense_tracker/screens/home.dart';
-import 'package:expense_tracker/screens/profile.dart';
-import 'package:expense_tracker/screens/projects.dart';
-import 'package:expense_tracker/screens/reconcilation.dart';
+import 'package:expense_tracker/screens/postAuth/home.dart';
+import 'package:expense_tracker/screens/postAuth/profile.dart';
+import 'package:expense_tracker/screens/onboarding/projects.dart';
+import 'package:expense_tracker/screens/postAuth/reconcilation.dart';
 import 'package:expense_tracker/fireStore_Services/user_data_service.dart';
 import 'package:expense_tracker/widgets/utils/load_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';

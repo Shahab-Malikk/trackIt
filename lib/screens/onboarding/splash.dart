@@ -1,4 +1,4 @@
-import 'package:expense_tracker/screens/onboarding.dart';
+import 'package:expense_tracker/screens/onboarding/onboarding.dart';
 import 'package:expense_tracker/widgets/utils/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

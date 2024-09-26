@@ -3,7 +3,7 @@ import 'package:expense_tracker/fireStore_Services/collaborated_project_service.
 import 'package:expense_tracker/fireStore_Services/projects_service.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
-import 'package:expense_tracker/screens/project_detail.dart';
+import 'package:expense_tracker/screens/postAuth/project_detail.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:flutter/material.dart';

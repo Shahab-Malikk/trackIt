@@ -1,5 +1,5 @@
-import 'package:expense_tracker/screens/login.dart';
-import 'package:expense_tracker/screens/signup.dart';
+import 'package:expense_tracker/screens/auth/login.dart';
+import 'package:expense_tracker/screens/auth/signup.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
