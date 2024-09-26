@@ -4,6 +4,7 @@ import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
+import 'package:expense_tracker/utils/utility_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -61,23 +62,7 @@ class _NewProjectState extends State<NewProject> {
 
   void _submitProjectData() {
     if (_titleController.text.trim().isEmpty || _selectedDate == null) {
-      showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              title: const Text('Invalid Input'),
-              content: const Text('Please  enter valid data'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                  },
-                  child: const Text('Ok'),
-                )
-              ],
-            );
-          });
-
+      UtilityFunctions().showInValidInputDialog(context);
       return;
     }
     final project = Project(
