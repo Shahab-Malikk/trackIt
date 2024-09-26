@@ -2,6 +2,7 @@ import 'package:expense_tracker/fireStore_Services/collaborated_project_service.
 import 'package:expense_tracker/fireStore_Services/projects_service.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
+import 'package:expense_tracker/utils/utility_functions.dart';
 import 'package:expense_tracker/widgets/no_data.dart';
 import 'package:expense_tracker/widgets/projects_list.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,10 @@ class _RecentProjectsState extends State<RecentProjects> {
       setState(() {
         widget.recentProjects.remove(project);
       });
+      UtilityFunctions()
+          .showInfoMessage("Project deleted successfuly.", context);
     } catch (e) {
+      UtilityFunctions().showInfoMessage("Failed to delete project.", context);
       print(e);
     }
   }

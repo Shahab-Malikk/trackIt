@@ -32,7 +32,7 @@ class ExpensesService {
           'description': expense.description,
           'paidBy': expense.paidBy,
         })
-        .then((value) => print("Expense Id"))
+        .then((value) => print("Expense Id ${expense.id}"))
         .catchError((error) => print("Failed to add user: $error"));
   }
 

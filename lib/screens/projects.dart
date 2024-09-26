@@ -96,6 +96,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   void removeProject(Project project) {
     setState(() {
       projects.remove(project);
+      _isLoading = true;
     });
 
     try {
@@ -106,9 +107,25 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
         CollaboratedProjectService(fireStoreService)
             .deleteCollaboratedProject(project.id, context);
       }
+
+      if (context.mounted) {
+        UtilityFunctions().showInfoMessage(
+          "Project Deleted Successfuly.",
+          context,
+        );
+      }
     } catch (e) {
+      if (context.mounted) {
+        UtilityFunctions().showInfoMessage(
+          "An error occured.",
+          context,
+        );
+      }
       print(e);
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
