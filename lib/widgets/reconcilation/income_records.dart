@@ -1,6 +1,6 @@
 import 'package:expense_tracker/models/income.dart';
-import 'package:expense_tracker/widgets/income_item.dart';
-import 'package:expense_tracker/widgets/no_data.dart';
+import 'package:expense_tracker/widgets/reconcilation/income_item.dart';
+import 'package:expense_tracker/widgets/utils/no_data.dart';
 import 'package:flutter/material.dart';
 
 class IncomeRecords extends StatelessWidget {

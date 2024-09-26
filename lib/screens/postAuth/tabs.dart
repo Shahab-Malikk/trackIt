@@ -5,7 +5,7 @@ import 'package:expense_tracker/screens/profile.dart';
 import 'package:expense_tracker/screens/projects.dart';
 import 'package:expense_tracker/screens/reconcilation.dart';
 import 'package:expense_tracker/fireStore_Services/user_data_service.dart';
-import 'package:expense_tracker/widgets/load_indicator.dart';
+import 'package:expense_tracker/widgets/utils/load_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

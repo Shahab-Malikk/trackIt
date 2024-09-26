@@ -5,7 +5,7 @@ import 'package:expense_tracker/models/income.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/build_form.dart';
-import 'package:expense_tracker/widgets/load_indicator.dart';
+import 'package:expense_tracker/widgets/utils/load_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';

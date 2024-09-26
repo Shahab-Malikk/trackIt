@@ -2,9 +2,9 @@ import 'package:expense_tracker/fireStore_Services/projects_service.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/models/project.dart';
-import 'package:expense_tracker/widgets/balance_cards.dart';
-import 'package:expense_tracker/widgets/recent_projects.dart';
-import 'package:expense_tracker/widgets/wlecome_banner.dart';
+import 'package:expense_tracker/widgets/home/balance_cards.dart';
+import 'package:expense_tracker/widgets/home/recent_projects.dart';
+import 'package:expense_tracker/widgets/home/wlecome_banner.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {

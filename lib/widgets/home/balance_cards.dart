@@ -1,6 +1,6 @@
 import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/theme/colors.dart';
-import 'package:expense_tracker/widgets/balance_card.dart';
+import 'package:expense_tracker/widgets/home/balance_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

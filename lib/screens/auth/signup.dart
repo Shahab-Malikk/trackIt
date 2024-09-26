@@ -2,7 +2,7 @@ import 'package:expense_tracker/fireStore_Services/auth_service.dart';
 import 'package:expense_tracker/fireStore_Services/form_service.dart';
 import 'package:expense_tracker/screens/tabs.dart';
 import 'package:expense_tracker/utils/build_form.dart';
-import 'package:expense_tracker/widgets/load_indicator.dart';
+import 'package:expense_tracker/widgets/utils/load_indicator.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {

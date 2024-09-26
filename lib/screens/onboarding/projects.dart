@@ -6,8 +6,8 @@ import 'package:expense_tracker/screens/project_type.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/utility_functions.dart';
-import 'package:expense_tracker/widgets/load_indicator.dart';
-import 'package:expense_tracker/widgets/projects_list.dart';
+import 'package:expense_tracker/widgets/utils/load_indicator.dart';
+import 'package:expense_tracker/widgets/projects/projects_list.dart';
 import 'package:flutter/material.dart';
 
 class ProjectsScreen extends StatefulWidget {

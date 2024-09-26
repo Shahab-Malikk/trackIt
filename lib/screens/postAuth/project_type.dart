@@ -1,6 +1,6 @@
 import 'package:expense_tracker/models/project.dart';
-import 'package:expense_tracker/widgets/new_project.dart';
-import 'package:expense_tracker/widgets/project_type_card.dart';
+import 'package:expense_tracker/widgets/projects/new_project.dart';
+import 'package:expense_tracker/widgets/projects/project_type_card.dart';
 import 'package:flutter/material.dart';
 
 class ProjectTypeSelectionScreen extends StatefulWidget {

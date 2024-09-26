@@ -1,7 +1,7 @@
 import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/theme/colors.dart';
-import 'package:expense_tracker/widgets/no_data.dart';
-import 'package:expense_tracker/widgets/project_item.dart';
+import 'package:expense_tracker/widgets/utils/no_data.dart';
+import 'package:expense_tracker/widgets/projects/project_item.dart';
 import 'package:flutter/material.dart';
 
 class ProjectsList extends StatelessWidget {
