@@ -34,6 +34,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     // TODO: implement initState
     super.initState();
     _fetchAndStoreExpenses();
+    print(widget.project.id);
   }
 
   void _openAddExpenseOverlay() {
@@ -184,6 +185,14 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   Future<void> _removeCollaboratedExpense(Expense expense) async {
     final collaborators = await _getCollaborators(widget.project.id);
     final amountPerCollaborator = expense.amount / collaborators.length;
+
+    final financialData = Provider.of<FinancialData>(context, listen: false);
+    final totalExpenses = financialData.totalExpenses - amountPerCollaborator;
+    final updatedBalance = financialData.totalBalance + amountPerCollaborator;
+
+    // Update local financial data
+    financialData.updateTotalExpenses(totalExpenses);
+    financialData.updateTotalIncome(updatedBalance);
 
     // Update the balances and expenses for each collaborator
     await CollaboratedProjectService(fireStoreService)
