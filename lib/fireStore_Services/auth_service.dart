@@ -48,15 +48,18 @@ class AuthService {
       );
       return 'Success';
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
+      // print("Error ${e.code}");
+      if (e.code == 'invalid-email') {
+        return 'Invalid email provided.';
+      } else if (e.code == 'user-not-found') {
         return 'No user found for that email.';
+      } else if (e.code == 'invalid-credential') {
+        return 'Invalid credentials provided.';
       } else if (e.code == 'wrong-password') {
         return 'Wrong password provided for that user.';
       } else {
         return e.message;
       }
-    } catch (e) {
-      return e.toString();
     }
   }
 }

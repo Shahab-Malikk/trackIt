@@ -2,6 +2,7 @@ import 'package:expense_tracker/fireStore_Services/category_service.dart';
 import 'package:expense_tracker/models/category.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
+import 'package:expense_tracker/models/project.dart';
 import 'package:expense_tracker/theme/colors.dart';
 import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/utility_functions.dart';
@@ -11,11 +12,13 @@ class NewExpense extends StatefulWidget {
   final void Function(Expense expense) onAddExpense;
   final String userId;
   final String projectId;
+  final Project project;
   const NewExpense({
     super.key,
     required this.onAddExpense,
     required this.userId,
     this.projectId = "",
+    required this.project,
   });
 
   @override
@@ -29,8 +32,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _priceController = TextEditingController();
   final _descriptionController = TextEditingController();
   List<String> subCategories = [];
-
-  DateTime? _selectedDate;
+  DateTime? _selectedDate = DateTime.now();
   String? _selectedCategory; // Initialize with an empty string for now
   String? _selectedCategoryId;
   String? _slectedSubCategory;
@@ -61,7 +63,9 @@ class _NewExpenseState extends State<NewExpense> {
 
   void _presentDatePicker() async {
     final now = DateTime.now();
-    final firstDate = DateTime(now.year - 1, now.month, now.day);
+    final projectStartDate = widget.project.date;
+    final firstDate = DateTime(
+        projectStartDate.year, projectStartDate.month, projectStartDate.day);
 
     final pickedDate = await showDatePicker(
       context: context,
@@ -102,7 +106,7 @@ class _NewExpenseState extends State<NewExpense> {
       return;
     }
     final expense = Expense(
-      id: uuid.v4(),
+      id: expenseUuid.v4(),
       title: _titleController.text,
       amount: enteredAmount,
       date: _selectedDate!,
@@ -126,12 +130,23 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
       child: Column(
         children: [
+          const Text(
+            'Add New Expense',
+            style: TextStyle(
+              fontSize: TSizes.fontSizeLg,
+              color: TColors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
           TextField(
             controller: _titleController,
-            maxLength: 50,
+            maxLength: 15,
             decoration: const InputDecoration(
               label: Text('Title'),
             ),
@@ -144,7 +159,7 @@ class _NewExpenseState extends State<NewExpense> {
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
                     prefixText: '\$',
-                    label: Text('Price'),
+                    label: Text('Amount'),
                   ),
                 ),
               ),
@@ -152,17 +167,23 @@ class _NewExpenseState extends State<NewExpense> {
                 width: 12,
               ),
               Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(_selectedDate == null
-                        ? 'No Date Selected'
-                        : formatter.format(_selectedDate!)),
-                    IconButton(
-                        onPressed: _presentDatePicker,
-                        icon: const Icon(Icons.calendar_month))
-                  ],
+                child: GestureDetector(
+                  onTap: _presentDatePicker,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(_selectedDate == null
+                          ? 'Please select a date'
+                          : formatter.format(_selectedDate!)),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      const Icon(
+                        Icons.calendar_month,
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],

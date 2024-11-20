@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const BalanceCards(),
             const SizedBox(height: 40),
             const Text(
-              "Recent Projets",
+              "Recent Projects",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w600,

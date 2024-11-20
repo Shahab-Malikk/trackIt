@@ -29,7 +29,7 @@ class _NewProjectState extends State<NewProject> {
 
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  DateTime? _selectedDate;
+  DateTime? _selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -104,9 +104,23 @@ class _NewProjectState extends State<NewProject> {
           ),
           TextField(
             controller: _titleController,
-            maxLength: 50,
-            decoration: const InputDecoration(
-              label: Text('Title'),
+            maxLength: 15,
+            decoration: InputDecoration(
+              label: RichText(
+                text: const TextSpan(
+                  text: 'Title',
+                  style: TextStyle(color: Colors.black), // Default style
+                  children: [
+                    TextSpan(
+                      text: ' *',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           Row(
@@ -115,17 +129,23 @@ class _NewProjectState extends State<NewProject> {
                 width: 12,
               ),
               Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(_selectedDate == null
-                        ? 'No Date Selected'
-                        : formatter.format(_selectedDate!)),
-                    IconButton(
-                        onPressed: _presentDatePicker,
-                        icon: const Icon(Icons.calendar_month))
-                  ],
+                child: GestureDetector(
+                  onTap: _presentDatePicker,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(_selectedDate == null
+                          ? 'Please select a date'
+                          : formatter.format(_selectedDate!)),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      const Icon(
+                        Icons.calendar_month,
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],

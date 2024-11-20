@@ -15,6 +15,7 @@ class IncomeRecords extends StatelessWidget {
         itemCount: incomeRecords.length,
         itemBuilder: (context, index) => Dismissible(
           key: ValueKey(index),
+          direction: DismissDirection.none,
           background: Container(),
           child: IncomeItem(
             income: incomeRecords[index],

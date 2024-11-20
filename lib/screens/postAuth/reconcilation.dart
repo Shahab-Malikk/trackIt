@@ -8,12 +8,14 @@ import 'package:expense_tracker/utils/utility_functions.dart';
 import 'package:expense_tracker/widgets/reconcilation/add_income.dart';
 import 'package:expense_tracker/widgets/reconcilation/income_records.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:provider/provider.dart';
 
 class ReconcilationScreen extends StatefulWidget {
   final String userId;
-  const ReconcilationScreen({super.key, required this.userId});
+  final String userName;
+  const ReconcilationScreen(
+      {super.key, required this.userId, required this.userName});
 
   @override
   State<ReconcilationScreen> createState() => _ReconcilationScreenState();
@@ -68,6 +70,33 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
   Widget build(BuildContext context) {
     final financialData = Provider.of<FinancialData>(context);
     return Scaffold(
+      floatingActionButton: Tooltip(
+        message: "Add Income",
+        decoration: BoxDecoration(
+          color: Colors.black87, // Background color of the tooltip
+          borderRadius: BorderRadius.circular(10),
+        ),
+        textStyle: const TextStyle(
+          fontSize: 14,
+          color: Colors.white, // Text color
+        ),
+        waitDuration:
+            const Duration(milliseconds: 500), // Time before tooltip appears
+        showDuration:
+            const Duration(seconds: 2), // How long the tooltip is shown
+        child: FloatingActionButton(
+          backgroundColor: TColors.black,
+          onPressed: _openAddIncomeOverlay,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(35),
+          ),
+          child: const Icon(
+            Icons.add,
+            size: 30,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 10,
@@ -88,21 +117,21 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
                       ),
                       child: Row(
                         children: [
-                          const Column(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Hi, Malik",
-                                style: TextStyle(
+                                "Hello, ${widget.userName}",
+                                style: const TextStyle(
                                   fontSize: TSizes.fontSizeLg,
                                   fontWeight: FontWeight.w600,
                                   color: TColors.black,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
-                              Text(
+                              const Text(
                                 "Your current balance is ...",
                                 style: TextStyle(
                                   color: TColors.darkGrey,
@@ -116,7 +145,7 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '\$ ${financialData.totalBalance.toString()}',
+                                financialData.totalBalance.toStringAsFixed(2),
                                 style: const TextStyle(
                                   color: TColors.lightGreen,
                                   fontSize: 32,
@@ -134,39 +163,6 @@ class _ReconcilationScreenState extends State<ReconcilationScreen> {
             ),
             const SizedBox(
               height: 40,
-            ),
-            Center(
-              child: SizedBox(
-                width: 300,
-                height: 60,
-                child: ElevatedButton(
-                  onPressed: _openAddIncomeOverlay,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.add_circle,
-                        size: 30.w,
-                        color: TColors.white,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        'Add Balance',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20.sp,
-                              color: TColors.white,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
             ),
             const Text(
               "Balance Record",

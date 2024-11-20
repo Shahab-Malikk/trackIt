@@ -25,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+
     _loadFormDataFromRealtimeDatabase();
   }
 
@@ -63,6 +64,13 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    print('dispose');
+    super.dispose();
   }
 
   @override
@@ -117,11 +125,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               foregroundColor: TColors.black,
                             ),
                             onPressed: () {
-                              Navigator.of(context).push(
+                              Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (context) => const SignupScreen(),
                                 ),
                               );
+                              setState(() {
+                                _formValues.clear();
+                              });
                             },
                             child: const Text(
                               'Create Account',

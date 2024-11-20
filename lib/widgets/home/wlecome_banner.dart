@@ -36,7 +36,7 @@ class WlecomeBanner extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Welcome Back',
+                'Welcome back',
                 style: TextStyle(fontSize: 14, color: Colors.black38),
               ),
               const SizedBox(

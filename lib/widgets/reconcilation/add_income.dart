@@ -96,11 +96,22 @@ class _AddIncomeState extends State<AddIncome> {
     return _isLoading
         ? const LoadIndicator()
         : Padding(
-            padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
+            padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
+                  const Text(
+                    'Add Income',
+                    style: TextStyle(
+                      fontSize: TSizes.fontSizeLg,
+                      color: TColors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
                   ..._formFields.map((field) {
                     return buildFormField(
                         context, field, _formValues, _handleValueChanged);

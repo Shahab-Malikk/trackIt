@@ -1,6 +1,9 @@
 import 'package:expense_tracker/fireStore_Services/auth_service.dart';
 import 'package:expense_tracker/fireStore_Services/form_service.dart';
+import 'package:expense_tracker/screens/auth/login.dart';
 import 'package:expense_tracker/screens/postAuth/tabs.dart';
+import 'package:expense_tracker/theme/colors.dart';
+import 'package:expense_tracker/theme/sizes.dart';
 import 'package:expense_tracker/utils/build_form.dart';
 import 'package:expense_tracker/widgets/utils/load_indicator.dart';
 import 'package:flutter/material.dart';
@@ -108,6 +111,28 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: ElevatedButton(
                             onPressed: _signup,
                             child: const Text('Create Account'),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30.0,
+                        ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: TColors.black,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ),
+                            );
+                            setState(() {
+                              _formValues.clear();
+                            });
+                          },
+                          child: const Text(
+                            'Already have an account? Login',
+                            style: TextStyle(fontSize: TSizes.fontSizeLg),
                           ),
                         ),
                       ],

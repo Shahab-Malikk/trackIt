@@ -2,7 +2,7 @@ import 'package:expense_tracker/models/financial_data.dart';
 import 'package:expense_tracker/models/firestore_services.dart';
 import 'package:expense_tracker/screens/postAuth/home.dart';
 import 'package:expense_tracker/screens/postAuth/profile.dart';
-import 'package:expense_tracker/screens/onboarding/projects.dart';
+import 'package:expense_tracker/screens/postAuth/projects.dart';
 import 'package:expense_tracker/screens/postAuth/reconcilation.dart';
 import 'package:expense_tracker/fireStore_Services/user_data_service.dart';
 import 'package:expense_tracker/widgets/utils/load_indicator.dart';
@@ -85,9 +85,10 @@ class _TabsState extends State<Tabs> {
       );
     }
     if (_selectedPageIndex == 2) {
-      activePageTitle = 'Reconcilation';
+      activePageTitle = 'Wallet';
       activePage = ReconcilationScreen(
         userId: uid,
+        userName: userName,
       );
     }
     if (_selectedPageIndex == 3) {
@@ -112,8 +113,7 @@ class _TabsState extends State<Tabs> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Projects'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.money), label: 'Reconcilation'),
+          BottomNavigationBarItem(icon: Icon(Icons.money), label: 'Wallet'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),

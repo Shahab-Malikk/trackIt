@@ -46,10 +46,12 @@ class _RecentProjectsState extends State<RecentProjects> {
   Widget build(BuildContext context) {
     Widget mainContent = Column(
       children: [
-        const Text(
-          "Here are your recent projects , see all projects by navigating to Projects.",
-          style: TextStyle(fontSize: 16, color: Colors.black38),
-        ),
+        widget.recentProjects.isNotEmpty
+            ? const Text(
+                "Here is list of recent projects, tap a project to view expenses.",
+                style: TextStyle(fontSize: 16, color: Colors.black38),
+              )
+            : const SizedBox(),
         const SizedBox(height: 20),
         Expanded(
           child: ProjectsList(
@@ -64,7 +66,7 @@ class _RecentProjectsState extends State<RecentProjects> {
     );
 
     if (widget.recentProjects.isEmpty) {
-      mainContent = const NoData(message: "Add Projects to track expenses.");
+      mainContent = const NoData(message: "No recent projects found.");
     }
     return Expanded(
       child: mainContent,

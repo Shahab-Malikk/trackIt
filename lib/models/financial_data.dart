@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FinancialData extends ChangeNotifier {
-  double _totalBalance = 0.0;
-  double _totalExpenses = 0.0;
+  double _totalBalance = 0.00;
+  double _totalExpenses = 0.00;
 
   double get totalExpenses => _totalExpenses;
   double get totalBalance => _totalBalance;
@@ -18,8 +18,8 @@ class FinancialData extends ChangeNotifier {
   }
 
   void resetAmounts() {
-    _totalBalance = 0.0;
-    _totalExpenses = 0.0;
+    _totalBalance = 0.00;
+    _totalExpenses = 0.00;
     notifyListeners();
   }
 }

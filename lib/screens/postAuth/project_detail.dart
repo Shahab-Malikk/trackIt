@@ -45,6 +45,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
         onAddExpense: _addExpense,
         userId: widget.userId,
         projectId: widget.project.id,
+        project: widget.project,
       ),
     );
   }
@@ -344,6 +345,16 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    "Tap on the \"+\" button to add a new expense.",
+                    style: TextStyle(
+                      fontSize: TSizes.fontSizeMd,
+                      color: TColors.black,
                     ),
                   ),
                   const SizedBox(

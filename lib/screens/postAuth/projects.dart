@@ -172,7 +172,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Add Your projects here.",
+                    "Tap on the \"+\" button to add a new project.",
                     style: TextStyle(
                       fontSize: TSizes.fontSizeMd,
                       color: TColors.black,
